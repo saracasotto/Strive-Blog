@@ -22,7 +22,7 @@ const BlogAuthorsList = () => {
       <Row>
         {authors.map((author) => (
           <Col xs={12} md={6} lg={4} key={author._id} className="mb-4">
-            <BlogAuthor name={`${author.nome} ${author.cognome}`} avatar={author.avatar} />
+            <BlogAuthor name={`${author.name} ${author.surname}`} avatar={author.avatar} />
           </Col>
         ))}
       </Row>
