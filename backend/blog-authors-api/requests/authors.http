@@ -1,13 +1,34 @@
 GET http://localhost:3001/authors 
 
 ###
-GET http://localhost:3001/authors/:id 
+GET http://localhost:3001/authors/64d5bb10fc13ae4a00000123
+ 
 
 ###
 POST http://localhost:3001/authors
+Content-Type: application/json
+
+{
+  "name": "Mario",
+  "surname": "Rossi",
+  "email": "mario.rossi@example.com",
+  "birthDate": "1985-03-15",
+  "avatar": "https://picsum.photos/200/300"
+}
 
 ###
-PUT http://localhost:3001/authors/:id
+PUT http://localhost:3001/authors/64d5bb10fc13ae4a00000123
+Content-Type: application/json
+
+{
+  "name": "Mario",
+  "surname": "Verdi",
+  "email": "mario.verdi@example.com",
+  "birthDate": "1985-03-15",
+  "avatar": "https://picsum.photos/200/300"
+}
+
+
 
 ###
-DELETE http://localhost:3001/authors/:id
+DELETE http://localhost:3001/authors/64d5bb10fc13ae4a00000123

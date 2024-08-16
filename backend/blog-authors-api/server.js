@@ -27,28 +27,33 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
 // GET /authors - Ritorna la lista degli autori
-server.get("/authors", async (req, res) => {
+server.get('/authors', async (req, res) => {
   try {
     const authors = await Author.find();
-    res.json(authors);
+    res.status(200).json(authors);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // GET /authors/:id - Ritorna un singolo autore
-server.get("/authors/:id", async (req, res) => {
+server.get('/authors/:id', async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
-    if (!author) return res.status(404).json({ message: "Author not found" });
-    res.json(author);
+    if (author) {
+      res.status(200).json(author);
+    } else {
+      res.status(404).json({ message: 'Author not found' });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+
 // POST /authors - Crea un nuovo autore
-server.post("/authors", async (req, res) => {
+server.post('/authors', async (req, res) => {
   try {
     const newAuthor = new Author(req.body);
     const savedAuthor = await newAuthor.save();
@@ -58,31 +63,36 @@ server.post("/authors", async (req, res) => {
   }
 });
 
+
 // PUT /authors/:id - Modifica un autore esistente
-server.put("/authors/:id", async (req, res) => {
+server.put('/authors/:id', async (req, res) => {
   try {
-    const updatedAuthor = await Author.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true } // Aggiunge la validazione del modello
-    );
-    if (!updatedAuthor) return res.status(404).json({ message: "Author not found" });
-    res.json(updatedAuthor);
+    const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (updatedAuthor) {
+      res.status(200).json(updatedAuthor);
+    } else {
+      res.status(404).json({ message: 'Author not found' });
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
+
 // DELETE /authors/:id - Cancella un autore
-server.delete("/authors/:id", async (req, res) => {
+server.delete('/authors/:id', async (req, res) => {
   try {
     const deletedAuthor = await Author.findByIdAndDelete(req.params.id);
-    if (!deletedAuthor) return res.status(404).json({ message: "Author not found" });
-    res.json({ message: "Author deleted" });
+    if (deletedAuthor) {
+      res.status(200).json({ message: 'Author deleted' });
+    } else {
+      res.status(404).json({ message: 'Author not found' });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // Avvia il server
 server.listen(port, () => {
