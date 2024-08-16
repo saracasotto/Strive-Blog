@@ -1,13 +1,13 @@
-GET http://localhost:3000/authors 
+GET http://localhost:3001/authors 
 
 ###
-GET http://localhost:3000/authors/:id 
+GET http://localhost:3001/authors/:id 
 
 ###
-POST http://localhost:3000/authors
+POST http://localhost:3001/authors
 
 ###
-PUT http://localhost:3000/authors/:id
+PUT http://localhost:3001/authors/:id
 
 ###
-DELETE http://localhost:3000/authors/:id
+DELETE http://localhost:3001/authors/:id
