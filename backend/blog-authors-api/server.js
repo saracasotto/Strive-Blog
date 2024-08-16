@@ -1,14 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import Author from './models/Authors.js';
 import dotenv from 'dotenv';
+import authorsRouter from './routes/authorsRoutes.js'; // Importa il router per gli autori
+import blogPostsRouter from './routes/blogPostsRoutes.js'; // Importa il router per i post del blog
 
 // Configura dotenv per caricare variabili ambientali
 dotenv.config();
 
 const server = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 server.use(cors());
 server.use(express.json());
@@ -16,85 +17,21 @@ server.use(express.json());
 // Recupera le credenziali dal file .env
 const username = encodeURIComponent(process.env.MONGO_USERNAME);
 const password = encodeURIComponent(process.env.MONGO_PASSWORD);
-const uri = `mongodb+srv://${username}:${password}@cluster0.dhchqcf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = `mongodb+srv://${username}:${password}@${process.env.MONGO_CLUSTER_URL}/?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Could not connect to MongoDB", err));
+  .then(() => console.log("Connesso a MongoDB"))
+  .catch((err) => console.error("Errore di connessione a MongoDB: ", err));
 
-// GET /authors - Ritorna la lista degli autori
-server.get('/authors', async (req, res) => {
-  try {
-    const authors = await Author.find();
-    res.status(200).json(authors);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-
-// GET /authors/:id - Ritorna un singolo autore
-server.get('/authors/:id', async (req, res) => {
-  try {
-    const author = await Author.findById(req.params.id);
-    if (author) {
-      res.status(200).json(author);
-    } else {
-      res.status(404).json({ message: 'Author not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-
-// POST /authors - Crea un nuovo autore
-server.post('/authors', async (req, res) => {
-  try {
-    const newAuthor = new Author(req.body);
-    const savedAuthor = await newAuthor.save();
-    res.status(201).json(savedAuthor);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-
-// PUT /authors/:id - Modifica un autore esistente
-server.put('/authors/:id', async (req, res) => {
-  try {
-    const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (updatedAuthor) {
-      res.status(200).json(updatedAuthor);
-    } else {
-      res.status(404).json({ message: 'Author not found' });
-    }
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-
-// DELETE /authors/:id - Cancella un autore
-server.delete('/authors/:id', async (req, res) => {
-  try {
-    const deletedAuthor = await Author.findByIdAndDelete(req.params.id);
-    if (deletedAuthor) {
-      res.status(200).json({ message: 'Author deleted' });
-    } else {
-      res.status(404).json({ message: 'Author not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
+// Usa i router per gestire le rotte
+server.use('/authors', authorsRouter);
+server.use('/blogPosts', blogPostsRouter);
 
 // Avvia il server
 server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server in esecuzione su http://localhost:${port}`);
 });

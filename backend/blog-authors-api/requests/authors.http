@@ -1,10 +1,11 @@
-GET http://localhost:3001/authors 
+GET http://localhost:3001/authors
 
 ###
-GET http://localhost:3001/authors/64d5bb10fc13ae4a00000123
- 
+
+GET http://localhost:3001/authors/66bf7ed02b54324f29280441
 
 ###
+
 POST http://localhost:3001/authors
 Content-Type: application/json
 
@@ -13,11 +14,12 @@ Content-Type: application/json
   "surname": "Rossi",
   "email": "mario.rossi@example.com",
   "birthDate": "1985-03-15",
-  "avatar": "https://picsum.photos/200/300"
+  "avatar": "https://picsum.photos/200/200"
 }
 
 ###
-PUT http://localhost:3001/authors/64d5bb10fc13ae4a00000123
+
+PUT http://localhost:3001/authors/66bf7ed02b54324f29280441
 Content-Type: application/json
 
 {
@@ -25,10 +27,9 @@ Content-Type: application/json
   "surname": "Verdi",
   "email": "mario.verdi@example.com",
   "birthDate": "1985-03-15",
-  "avatar": "https://picsum.photos/200/300"
+  "avatar": "https://picsum.photos/200/200"
 }
 
-
-
 ###
+
 DELETE http://localhost:3001/authors/64d5bb10fc13ae4a00000123

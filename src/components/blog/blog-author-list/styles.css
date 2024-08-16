@@ -1,0 +1,58 @@
+/* BlogAuthorsList.css */
+
+.blog-author-row {
+    padding-top: 10em
+}
+.author-card {
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 3em auto;
+  width: 300px;
+}
+
+.author-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.author-card img {
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  padding: 0.5em;
+}
+
+.author-card .card-body {
+  padding: 1.25rem;
+}
+
+.author-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.author-email,
+.author-birthdate {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.card-body {
+  background-color: #f9f9f9;
+}
+
+.card-title {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 767px) {
+  .author-card img {
+    height: 150px;
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from "./components/navbar/BlogNavbar";
 import Footer from "./components/footer/Footer";
 import Home from "./views/home/Home";
