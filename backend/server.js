@@ -8,7 +8,7 @@ import authorsRouter from './routes/authorsRoutes.js'; // Importa il router per 
 dotenv.config();
 
 const server = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 5000;
 
 server.use(cors());
 server.use(express.json());
