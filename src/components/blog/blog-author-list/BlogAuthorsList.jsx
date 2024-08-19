@@ -9,7 +9,7 @@ const BlogAuthorsList = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch('http://localhost:3001/authors');
+        const response = await fetch('http://localhost:3002/authors');
         const data = await response.json();
         setAuthors(data);
       } catch (error) {

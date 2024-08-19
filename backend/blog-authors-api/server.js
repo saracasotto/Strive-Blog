@@ -3,13 +3,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authorsRouter from './routes/authorsRoutes.js'; // Importa il router per gli autori
-import blogPostsRouter from './routes/blogPostsRoutes.js'; // Importa il router per i post del blog
 
 // Configura dotenv per caricare variabili ambientali
 dotenv.config();
 
 const server = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 server.use(cors());
 server.use(express.json());
@@ -17,19 +16,16 @@ server.use(express.json());
 // Recupera le credenziali dal file .env
 const username = encodeURIComponent(process.env.MONGO_USERNAME);
 const password = encodeURIComponent(process.env.MONGO_PASSWORD);
-const uri = `mongodb+srv://${username}:${password}@${process.env.MONGO_CLUSTER_URL}/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${username}:${password}@cluster0.dhchqcf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(uri)
   .then(() => console.log("Connesso a MongoDB"))
   .catch((err) => console.error("Errore di connessione a MongoDB: ", err));
 
+
 // Usa i router per gestire le rotte
 server.use('/authors', authorsRouter);
-server.use('/blogPosts', blogPostsRouter);
 
 // Avvia il server
 server.listen(port, () => {
