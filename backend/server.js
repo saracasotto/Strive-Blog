@@ -9,6 +9,7 @@ dotenv.config();
 
 const server = express();
 const port = process.env.PORT || 5000;
+const host = process.env.HOST
 
 server.use(cors());
 server.use(express.json());
@@ -29,5 +30,5 @@ server.use('/authors', authorsRouter);
 
 // Avvia il server
 server.listen(port, () => {
-  console.log(`Server in esecuzione su http://localhost:${port}`);
+  console.log(`Server in esecuzione su ${host}:${port}`);
 });
