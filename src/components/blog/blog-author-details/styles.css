@@ -1,0 +1,56 @@
+/* AuthorDetail.css */
+
+/* Contenitore principale */
+.author-details-container {
+  padding: 2em;
+  margin-top:  6em;
+}
+
+/* Card per i dettagli dell'autore */
+.author-detail-card {
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 2em auto;
+  max-width: 400px;
+}
+
+.author-detail-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.author-detail-card img {
+  object-fit: cover;
+  height: 250px;
+  width: 250px;
+  margin: 0 auto;
+  border-radius: 50%;
+  padding: 0.5em;
+}
+
+.author-detail-card .card-body {
+  padding: 1.25rem;
+}
+
+.author-detail-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.author-detail-email,
+.author-detail-birthdate {
+  font-size: 1rem;
+  color: #666;
+}
+
+.card-body {
+  background-color: #f9f9f9;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+}

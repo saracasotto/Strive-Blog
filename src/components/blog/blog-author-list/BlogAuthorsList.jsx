@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import "./styles.css";
-
+import { Link } from 'react-router-dom';
+import './styles.css'
 
 const BlogAuthorsList = () => {
   const [authors, setAuthors] = useState([]);
@@ -21,11 +21,12 @@ const BlogAuthorsList = () => {
   }, []);
 
   return (
-      <Row className="blog-author-row">
-        {authors.map((author) => (
-          <Col sm={6} md={4} key={author._id}>
+    <Row className="blog-author-row">
+      {authors.map((author) => (
+        <Col sm={6} md={3} key={author._id}>
+          <Link to={`/authors/${author._id}`} style={{ textDecoration: 'none' }}> {/* Link alla pagina dell'autore */}
             <Card className="author-card">
-              <Card.Img variant="top" src={author.avatar}/>
+              <Card.Img variant="top" src={author.avatar} />
               <Card.Body>
                 <Card.Title>{`${author.name} ${author.surname}`}</Card.Title>
                 <Card.Text>
@@ -36,9 +37,10 @@ const BlogAuthorsList = () => {
                 </Card.Text>
               </Card.Body>
             </Card>
-          </Col>
-        ))}
-      </Row>
+          </Link>
+        </Col>
+      ))}
+    </Row>
   );
 };
 
