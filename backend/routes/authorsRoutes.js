@@ -1,8 +1,8 @@
-import express from 'express';
+import express from 'express';  //express ci permette di usarlo all'interno di questo file 
 import Author from '../models/Authors.js';
 
 const router = express.Router();
-
+// DEFINIAMO LE ROTTE SU ROUTER
 // GET /authors - Ritorna la lista di autori
 router.get('/', async (req, res) => {
   try {
