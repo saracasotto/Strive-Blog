@@ -3,6 +3,8 @@ import Author from '../models/Authors.js';
 
 const router = express.Router();
 // DEFINIAMO LE ROTTE SU ROUTER
+
+// utilizzo funzioni asincrone per le chiamate per non bloccare il flusso
 // GET /authors - Ritorna la lista di autori
 router.get('/', async (req, res) => {
   try {
