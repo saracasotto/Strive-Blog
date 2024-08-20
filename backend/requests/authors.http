@@ -53,8 +53,8 @@ Content-Type: application/json
 
 {
   "name": "Giulia",
-  "surname": "Bianchi",
-  "email": "giulia.bianchi@example.com",
+  "surname": "Brambilla",
+  "email": "giulia.brambilla@example.com",
   "birthDate": "1990-04-11",
   "avatar": "https://picsum.photos/200/200"
 }
