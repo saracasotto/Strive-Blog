@@ -7,12 +7,12 @@ import authorsRouter from './routes/authorsRoutes.js'; // Importa il router per 
 // Configura dotenv per caricare variabili ambientali
 dotenv.config();
 
-const server = express();
+const app = express();
 const port = process.env.PORT || 5000;
 const host = process.env.HOST
 
-server.use(cors());
-server.use(express.json());
+app.use(cors());
+app.use(express.json());
 
 // Recupera le credenziali dal file .env
 const username = encodeURIComponent(process.env.MONGO_USERNAME);
@@ -26,9 +26,9 @@ mongoose
 
 
 // Usa i router per gestire le rotte
-server.use('/authors', authorsRouter);
+app.use('/authors', authorsRouter);
 
 // Avvia il server
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server in esecuzione su ${host}:${port}`);
 });
