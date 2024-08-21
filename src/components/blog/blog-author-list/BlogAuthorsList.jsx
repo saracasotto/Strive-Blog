@@ -9,7 +9,7 @@ const BlogAuthorsList = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch('http://localhost:3002/authors');
+        const response = await fetch('http://localhost:5000/authors');
         const data = await response.json();
         setAuthors(data);
       } catch (error) {
@@ -23,7 +23,7 @@ const BlogAuthorsList = () => {
   return (
     <Row className="blog-author-row">
       {authors.map((author) => (
-        <Col sm={6} md={3} key={author._id}>
+        <Col sm={6} md={4} key={author._id}>
           <Link to={`/authors/${author._id}`} style={{ textDecoration: 'none' }}> {/* Link alla pagina dell'autore */}
             <Card className="author-card">
               <Card.Img variant="top" src={author.avatar} />

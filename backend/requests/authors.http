@@ -10,6 +10,14 @@ GET http://localhost:5000/authors/66c327b919ee069795c247e7
 
 ###
 
+GET http://localhost:5000/authors/66c62b3045882dc9b308d0de
+
+###
+
+GET http://localhost:5000/authors/66c62c0045882dc9b308d0e1
+
+###
+
 POST http://localhost:5000/authors
 Content-Type: application/json
 
@@ -27,6 +35,19 @@ POST http://localhost:5000/authors
 Content-Type: application/json
 
 {
+  "name": "Anna",
+  "surname": "Lombardi",
+  "email": "anna.lombardi@example.com",
+  "birthDate": "1976-03-22",
+  "avatar": "https://picsum.photos/200/200"
+}
+
+###
+
+POST http://localhost:5000/authors
+Content-Type: application/json
+
+{
   "name": "Giulia",
   "surname": "Bianchi",
   "email": "giulia.bianchi@example.com",
@@ -34,8 +55,22 @@ Content-Type: application/json
   "avatar": "https://picsum.photos/200/200"
 }
 
+###
+
+POST http://localhost:5000/authors
+Content-Type: application/json
+
+{
+  "name": "Sara",
+  "surname": "Casotto",
+  "email": "sara.casotto@example.com",
+  "birthDate": "1992-11-20",
+  "avatar": "https://picsum.photos/200/200"
+}
 
 ###
+
+
 PUT http://localhost:5000/authors/66bf7ed02b54324f29280441
 Content-Type: application/json
 
@@ -58,6 +93,7 @@ Content-Type: application/json
   "birthDate": "1990-04-11",
   "avatar": "https://picsum.photos/200/200"
 }
+
 
 ###
 

@@ -11,7 +11,7 @@ const AuthorDetails = () => {
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/authors/${id}`);
+        const response = await fetch(`http://localhost:5000/authors/${id}`);
         const data = await response.json();
         setAuthor(data);
       } catch (error) {
