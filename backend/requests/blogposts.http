@@ -1,0 +1,35 @@
+GET http://localhost:5000/blogposts
+
+###
+
+GET http://localhost:5000/blogposts - ID
+
+###
+
+POST http://localhost:5000/blogposts
+Content-Type: application/json
+
+{
+  "category": "Tech",
+  "title": "New Post",
+  "cover": "http://example.com/image.jpg",
+  "readTime": {
+    "value": 5,
+    "unit": "minutes"
+  },
+  "author": "author@example.com",
+  "content": "<p>This is the content of the post.</p>"
+}
+
+###
+
+PUT http://localhost:5000/blogposts
+Content-Type: application/json
+
+{
+  "title": "Updated Post Title"
+}
+
+###
+
+DELETE http://localhost:5000/blogposts
