@@ -1,19 +1,19 @@
-import mongoose from "mongoose";
-
-const { Schema, model } = mongoose;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const BlogPostSchema = new Schema({
-  category: "string",
-  title: "string",
-  cover: "string",
+  category: { type: String, required: true },
+  title: { type: String, required: true },
+  cover: { type: String, required: true },
   readTime: {
-    value: "number",
-    unit: "string",
+    value: { type: Number, required: true },
+    unit: { type: String, required: true }
   },
-  author: "string",
-  content: "string",
+  author: { type: String, required: true },
+  content: { type: String, required: true }
 });
 
-const BlogPost = model("BlogPost", BlogPostSchema);
+// Creazione del modello basato sullo schema
+const BlogPost = mongoose.model('BlogPost', BlogPostSchema);
 
 export default BlogPost;

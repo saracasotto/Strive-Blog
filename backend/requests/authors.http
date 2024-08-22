@@ -74,7 +74,7 @@ Content-Type: application/json
 PUT http://localhost:5000/authors/66bf7ed02b54324f29280441
 Content-Type: application/json
 
-{
+{ 
   "name": "Mario",
   "surname": "Verdi",
   "email": "mario.verdi@example.com",

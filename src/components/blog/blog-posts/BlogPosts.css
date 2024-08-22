@@ -1,0 +1,60 @@
+.blog-post-row {
+  padding-top: 10em;
+}
+
+.blog-post {
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 3em auto;
+  max-width: 90%;
+  padding: 1.5em;
+  background-color: #f9f9f9;
+}
+
+.blog-post:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.blog-post img {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+
+.blog-post h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.blog-post p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.blog-post .post-content {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Styling for category, author, and read time */
+.blog-post .category,
+.blog-post .author,
+.blog-post .read-time {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.blog-post .read-time {
+  font-weight: bold;
+}

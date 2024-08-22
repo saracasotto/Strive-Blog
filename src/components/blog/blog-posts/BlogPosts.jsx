@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from './Pagination'; // Componente per la paginazione
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
+import './BlogPosts.css'
 
-// Modello dei dati del blog
+// Componente per la visualizzazione di un singolo post
 const BlogPost = ({ post }) => (
   <div className="blog-post">
     <h2>{post.title}</h2>
@@ -9,55 +11,67 @@ const BlogPost = ({ post }) => (
     <p><strong>Category:</strong> {post.category}</p>
     <p><strong>Author:</strong> {post.author}</p>
     <p><strong>Read Time:</strong> {post.readTime.value} {post.readTime.unit}</p>
-    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+    <div className="post-content">
+      {post.content}
+    </div>
+    <Link to={`/blogposts/${post._id}`} className="read-more-link">Read More</Link>
   </div>
 );
 
-const BlogPosts = () => {
+// Custom hook per il recupero dei post
+const useFetchPosts = (currentPage, postsPerPage) => {
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
-  const [totalPosts, setTotalPosts] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`/blogPosts?_page=${currentPage}&_limit=${postsPerPage}`);
-        
+        const response = await fetch(`http://localhost:5000/blogposts?_page=${currentPage}&_limit=${postsPerPage}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
-        const totalCount = response.headers.get('X-Total-Count');
         const data = await response.json();
+        console.log(data); // Verifica i dati ricevuti
 
-        setPosts(data);
-        setTotalPosts(parseInt(totalCount, 10));
+        setPosts(data.posts);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPosts();
   }, [currentPage, postsPerPage]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  return { posts, loading, error };
+};
+
+// Componente principale per la visualizzazione dei post del blog
+const BlogPosts = () => {
+  const postsPerPage = 5; // Numero fisso di post per pagina, ora non utilizzato
+  const [currentPage] = useState(1); // Definito ma non usato
+
+  const { posts, loading, error } = useFetchPosts(currentPage, postsPerPage);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <Row className="blog-post-row text-center">
       <h1>Blog Posts</h1>
-      {posts.map(post => (
-        <BlogPost key={post._id} post={post} />
-      ))}
-      <Pagination
-        totalItems={totalPosts}
-        itemsPerPage={postsPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-    </div>
+      {posts.length > 0 ? (
+        posts.map(post => (
+          <Col sm={6} md={4} key={post._id} className="blog-post-container">
+            <BlogPost key={post._id} post={post} />
+          </Col>
+        ))
+      ) : (
+        <p>No posts available.</p>
+      )}
+      {/* Paginazione rimossa */}
+    </Row>
   );
 };
 

@@ -4,18 +4,32 @@ import BlogPost from '../models/BlogPosts.js';
 const router = express.Router();
 
 // GET /blogPosts - Ritorna una lista di blog post
+// utilizzo funzioni asincrone per le chiamate per non bloccare il flusso
+
 router.get('/', async (req, res) => {
   try {
-    const { _page = 1, _limit = 10 } = req.query;
-    const skip = (parseInt(_page) - 1) * parseInt(_limit);
+    //PAGINAZIONE RISULTATI GET
+    //n pagina corrente e numero post massimi per pagina
+    const { _page = 1, _limit = 10 } = req.query; 
+
+    //Calcola quanti elementi devono essere saltati per ottenere la pagina richiesta
+    const skip = (parseInt(_page) - 1) * parseInt(_limit); 
     
-    const totalPosts = await BlogPost.countDocuments();
+    //calcola numero istanze
+    const totalPosts = await BlogPost.countDocuments();  //asincrono
+
+
     const posts = await BlogPost.find()
+
+    //paginazione 
       .skip(skip)
       .limit(parseInt(_limit));
-
-    res.setHeader('X-Total-Count', totalPosts);
-    res.json(posts);
+    
+    //stabilisco come risposta al client il n. di post e post
+      res.json({
+        totalPosts: totalPosts,
+        posts: posts
+      });;
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -8,6 +8,7 @@ import NewBlogPost from "./views/new/New";
 import BlogAuthorsList from "./components/blog/blog-author-list/BlogAuthorsList";
 import AuthorDetails from "./components/blog/blog-author-details/AuthorDetails"
 import BlogPosts from "./components/blog/blog-posts/BlogPosts";
+import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/new" element={<NewBlogPost />} />
         <Route path="/blogposts" element={<BlogPosts />} />
+        <Route path="/blogposts/:id" element={<BlogPostDetails />} />
         <Route path="/authors" element={<BlogAuthorsList />} />
         <Route path="/authors/:id" element={<AuthorDetails />}/>
       </Routes>

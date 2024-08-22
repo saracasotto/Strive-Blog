@@ -2,7 +2,7 @@ GET http://localhost:5000/blogposts
 
 ###
 
-GET http://localhost:5000/blogposts - ID
+GET http://localhost:5000/blogposts/66c6c25572d50b71605be95e
 
 ###
 
@@ -18,18 +18,26 @@ Content-Type: application/json
     "unit": "minutes"
   },
   "author": "author@example.com",
-  "content": "<p>This is the content of the post.</p>"
+  "content": "This is the content of the post."
 }
 
 ###
 
-PUT http://localhost:5000/blogposts
+PUT http://localhost:5000/blogposts/66c6c25572d50b71605be95e
 Content-Type: application/json
 
 {
-  "title": "Updated Post Title"
+  "category": "Tech",
+  "title": "New Post",
+  "cover": "https://picsum.photos/1200/630",
+  "readTime": {
+    "value": 5,
+    "unit": "minutes"
+  },
+  "author": "author@example.com",
+  "content": "This is the content of the post."
 }
 
 ###
 
-DELETE http://localhost:5000/blogposts
+DELETE http://localhost:5000/blogposts/66c629b9e85014bb759dcf19

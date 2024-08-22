@@ -8,7 +8,9 @@ const router = express.Router();
 // GET /authors - Ritorna la lista di autori
 router.get('/', async (req, res) => {
   try {
-    const authors = await Author.find();
+    const authors = await Author.find().limit(15);  //limita numero autori a  15
+
+    //risposta al client
     res.json(authors);
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
@@ -32,13 +34,15 @@ router.get('/:id', async (req, res) => {
 // POST /authors - Crea un nuovo autore
 router.post('/', async (req, res) => {
   try {
-    const { name, surname, email, birthDate, avatar } = req.body;
+    const { name, surname, email, birthDate, avatar } = req.body; //corpo richiesta
     if (!name || !email) {
       return res.status(400).json({ message: 'Nome e email sono obbligatori' });
     }
 
-    const newAuthor = new Author({ name, surname, email, birthDate, avatar });
-    const savedAuthor = await newAuthor.save();
+    const newAuthor = new Author({ name, surname, email, birthDate, avatar }); //creazione nuova istanza
+    const savedAuthor = await newAuthor.save(); //salvataggio nuova istanza nel database assegnata a costante
+
+    //invio risposta al client 
     res.status(201).json(savedAuthor);
   } catch (error) {
     res.status(400).json({ message: 'Errore nella richiesta: ' + error.message });
@@ -48,11 +52,11 @@ router.post('/', async (req, res) => {
 // PUT /authors/:id - Modifica un autore esistente
 router.put('/:id', async (req, res) => {
   try {
-    const { name, surname, email, birthDate, avatar } = req.body;
+    const { name, surname, email, birthDate, avatar } = req.body;  //corpo richiesta
     if (!name || !email) {
       return res.status(400).json({ message: 'Nome e email sono obbligatori' });
     }
-
+//cerco nella collezione authors in base al suo ID e lo aggiorno con i nuovi dati.
     const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, { name, surname, email, birthDate, avatar }, { new: true });
     if (updatedAuthor) {
       res.json(updatedAuthor);
