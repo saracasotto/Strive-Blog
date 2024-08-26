@@ -59,3 +59,20 @@ export const deleteBlogPost = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+export const uploadBlogPostCover = async (req, res) => {
+  try {
+    const post = await BlogPost.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ message: 'Post non trovato' });
+    }
+
+    post.coverImage = req.file.path;
+    await post.save();
+
+    res.json({ message: 'Cover caricata con successo', coverImage: post.coverImage });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore del server: ' + error.message });
+  }
+};

@@ -3,7 +3,6 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "./styles.css";
-import {convertToRaw} from "draft-js"
 import draftToHtml from "draftjs-to-html"
 
 const NewBlogPost = props => {

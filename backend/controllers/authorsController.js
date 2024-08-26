@@ -71,3 +71,21 @@ export const deleteAuthor = async (req, res) => {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
+
+export const uploadAuthorAvatar = async (req, res) => {
+  try {
+    const author = await Author.findById(req.params.id);
+    if (!author) {
+      return res.status(404).json({ message: 'Autore non trovato' });
+    }
+
+    // L'URL dell'immagine caricata è disponibile in req.file.path
+    author.avatar = req.file.path;
+    await author.save();
+
+    res.json({ message: 'Avatar caricato con successo', avatar: author.avatar });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore del server: ' + error.message });
+  }
+};

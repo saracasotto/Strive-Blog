@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Card } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
+import { Container, Card, Button } from 'react-bootstrap';
 import './styles.css';
 
 
@@ -38,6 +38,10 @@ const AuthorDetails = () => {
           <Card.Text>
             <strong>Birth Date:</strong> {author.birthDate}
           </Card.Text>
+          {/* Link alla pagina di caricamento dell'avatar */}
+          <Link to={`/authors/${id}/avatar`}>
+            <Button variant="secondary">Modifica Avatar</Button>
+          </Link>
         </Card.Body>
       </Card>
     </Container>
