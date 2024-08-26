@@ -11,6 +11,7 @@ import BlogPosts from "./components/blog/blog-posts/BlogPosts";
 import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UploadAvatar from "./components/blog/blog-avatar-uploads/UploadAvatar";
+import UploadCover from "./components/blog/blog-avatar-uploads/UploadCover";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/authors" element={<BlogAuthorsList />} />
         <Route path="/authors/:id" element={<AuthorDetails />}/>
         <Route path="/authors/:id/avatar" element={<UploadAvatar />} />
+        <Route path="/blogposts/:id/cover" element={<UploadCover />} />
       </Routes>
       <Footer />
     </Router>

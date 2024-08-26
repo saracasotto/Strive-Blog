@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
+import './Uploads.css';
 
 const UploadAvatar = () => {
   const { id } = useParams(); // Ottieni l'id dell'autore dall'URL

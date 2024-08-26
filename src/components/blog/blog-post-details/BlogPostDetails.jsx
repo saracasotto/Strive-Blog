@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import "./BlogPostDetails.css"
 
 const BlogPostDetails = () => {
@@ -43,6 +43,7 @@ const BlogPostDetails = () => {
                 <div className="post-content">
                     {post.content}
                 </div>
+                <Link to={`/blogposts/${id}/cover`}>Upload New Cover Image</Link>
             </div>
         </div>
     );

@@ -68,7 +68,7 @@ export const uploadBlogPostCover = async (req, res) => {
       return res.status(404).json({ message: 'Post non trovato' });
     }
 
-    post.coverImage = req.file.path;
+    post.cover = req.file.path;
     await post.save();
 
     res.json({ message: 'Cover caricata con successo', coverImage: post.coverImage });
@@ -76,3 +76,5 @@ export const uploadBlogPostCover = async (req, res) => {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
+
