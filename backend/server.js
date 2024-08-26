@@ -15,6 +15,7 @@ const host = process.env.HOST
 app.use(cors());
 app.use(express.json());
 
+
 // Recupera le credenziali dal file .env
 const username = encodeURIComponent(process.env.MONGO_USERNAME);
 const password = encodeURIComponent(process.env.MONGO_PASSWORD);
