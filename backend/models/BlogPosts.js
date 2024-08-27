@@ -10,7 +10,9 @@ const BlogPostSchema = new Schema({
     unit: { type: String, required: true }
   },
   author: { type: String, required: true },
-  content: { type: String, required: true }
+  content: { type: String, required: true },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] // Referencing Comments
+
 });
 
 // Creazione del modello basato sullo schema

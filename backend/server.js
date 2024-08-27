@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authorsRouter from './routes/authorsRoutes.js'; // Importa il router per gli autori
 import blogPostsRouter from './routes/blogPostsRoutes.js'
+import commentsRouter from './routes/commentsRoutes.js'
 
 // Configura dotenv per caricare variabili ambientali
 dotenv.config();
@@ -30,6 +31,7 @@ mongoose
 // Usa i router per gestire le rotte
 app.use('/authors', authorsRouter);
 app.use('/blogposts', blogPostsRouter);
+app.use('/blogPosts/:id/comments', commentsRouter);
 
 
 // Avvia il server
