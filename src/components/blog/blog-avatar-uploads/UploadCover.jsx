@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Uploads.css';
+
 
 
 const UploadCover = () => {
@@ -51,7 +51,7 @@ const UploadCover = () => {
   };
 
   return (
-    <Container className="upload-cover-container">
+    <Container fluid="sm" className="mt-5">
       <h2>Carica la Copertina del Blog Post</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       {success && <Alert variant="success">{success}</Alert>}

@@ -27,7 +27,7 @@ const AuthorDetails = () => {
   }
 
   return (
-    <Container className="author-details-container">
+    <Container fluid="sm" className="mt-5">
       <Card className="author-detail-card">
         <Card.Img variant="top" src={author.avatar} />
         <Card.Body>

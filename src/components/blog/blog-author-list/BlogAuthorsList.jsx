@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './styles.css'
 
@@ -35,7 +35,7 @@ const BlogAuthorsList = () => {
   };
 
   return (
-    <>
+    <Container fluid="sm" className='mt-5'>
       <Row className="blog-author-row">
         {authors.map((author) => (
           <Col sm={6} md={3} key={author._id}>
@@ -61,7 +61,7 @@ const BlogAuthorsList = () => {
           <Button onClick={loadMoreAuthors}>Carica Altro</Button>
         </div>
       )}
-    </>
+    </Container>
   );
 };
 

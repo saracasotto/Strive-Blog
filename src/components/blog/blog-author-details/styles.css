@@ -1,12 +1,4 @@
-/* AuthorDetail.css */
 
-/* Contenitore principale */
-.author-details-container {
-  padding: 2em;
-  margin-top:  6em;
-}
-
-/* Card per i dettagli dell'autore */
 .author-detail-card {
   border: 1px solid #e1e1e1;
   border-radius: 12px;

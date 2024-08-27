@@ -34,6 +34,7 @@ app.use('/blogposts', blogPostsRouter);
 app.use('/blogPosts/:id/comments', commentsRouter);
 
 
+
 // Avvia il server
 app.listen(port, () => {
   console.log(`Server in esecuzione su ${host}:${port}`);

@@ -1,4 +1,4 @@
-import BlogPost from '../models/BlogPost.js';
+import BlogPost from '../models/BlogPosts.js';
 import Comment from '../models/Comments.js';
 
 // GET /blogPosts/:id/comments - Ritorna tutti i commenti di un post specifico

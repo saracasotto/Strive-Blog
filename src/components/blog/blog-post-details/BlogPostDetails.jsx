@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import "./BlogPostDetails.css"
+import Comments from '../blog-comments/Comments';
+import { Row, Container } from 'react-bootstrap';
 
 const BlogPostDetails = () => {
     const { id } = useParams(); // Ottieni l'ID dal parametro della rotta
@@ -33,8 +35,8 @@ const BlogPostDetails = () => {
     if (!post) return <p>Post not found.</p>;
 
     return (
-        <div className='blog-post-details-container'>
-            <div className="blog-post-details">
+        <Container fluid="sm" className='mt-5'>
+            <Row className="blog-post-details">
                 <h2>{post.title}</h2>
                 <img src={post.cover} alt={post.title} />
                 <p><strong>Category:</strong> {post.category}</p>
@@ -44,8 +46,9 @@ const BlogPostDetails = () => {
                     {post.content}
                 </div>
                 <Link to={`/blogposts/${id}/cover`}>Upload New Cover Image</Link>
-            </div>
-        </div>
+                <Comments postId={id} />
+            </Row>
+        </Container>
     );
 };
 

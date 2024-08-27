@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import './BlogPosts.css'
 
 // Componente per la visualizzazione di un singolo post
@@ -59,19 +59,21 @@ const BlogPosts = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <Row className="blog-post-row text-center">
-      <h1>Blog Posts</h1>
-      {posts.length > 0 ? (
-        posts.map(post => (
-          <Col sm={6} md={4} key={post._id} className="blog-post-container">
-            <BlogPost key={post._id} post={post} />
-          </Col>
-        ))
-      ) : (
-        <p>No posts available.</p>
-      )}
-      {/* Paginazione rimossa */}
-    </Row>
+    <Container fluid="sm" className='mt-5'>
+      <Row className="blog-post-row text-center">
+        <h1>Blog Posts</h1>
+        {posts.length > 0 ? (
+          posts.map(post => (
+            <Col lg={4} key={post._id} className="blog-post-container">
+              <BlogPost key={post._id} post={post} />
+            </Col>
+          ))
+        ) : (
+          <p>No posts available.</p>
+        )}
+        {/* Paginazione rimossa */}
+      </Row>
+    </Container>
   );
 };
 

@@ -87,7 +87,6 @@ export const deleteAuthor = async (req, res) => {
   }
 };
 
-
 export const deleteAllAuthors = async (req, res) => {
   try {
     await Author.deleteMany({}); // Cancella tutti i documenti nella collezione Author
