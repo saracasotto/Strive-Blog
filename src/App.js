@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UploadAvatar from "./components/blog/blog-avatar-uploads/UploadAvatar";
 import UploadCover from "./components/blog/blog-avatar-uploads/UploadCover";
 import CommentDetails from "./components/blog/blog-comments/CommentDetails";
-import { Container } from "react-bootstrap";
 
 function App() {
   return (
