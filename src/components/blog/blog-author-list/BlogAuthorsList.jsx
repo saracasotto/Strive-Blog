@@ -1,46 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './styles.css'
 
 const BlogAuthorsList = () => {
   const [authors, setAuthors] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true); // Per verificare se ci sono più autori da caricare
+  const limit = 10; // Numero di autori per pagina
 
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch('http://localhost:5000/authors');
+        const response = await fetch(`http://localhost:5000/authors?_page=${page}&_limit=${limit}`);
         const data = await response.json();
-        setAuthors(data);
+
+        // Aggiorna lo stato con i nuovi autori
+        setAuthors((prevAuthors) => [...prevAuthors, ...data.authors]);
+
+        // Controlla se ci sono più autori da caricare
+        if (data.authors.length < limit) {
+          setHasMore(false);
+        }
       } catch (error) {
         console.error('Error fetching authors:', error);
       }
     };
 
     fetchAuthors();
-  }, []);
+  }, [page]); // Ricarica quando cambia la pagina
+
+  const loadMoreAuthors = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
-    <Row className="blog-author-row">
-      {authors.map((author) => (
-        <Col sm={6} md={4} key={author._id}>
-          <Link to={`/authors/${author._id}`} style={{ textDecoration: 'none' }}> {/* Link alla pagina dell'autore */}
-            <Card className="author-card">
-              <Card.Img variant="top" src={author.avatar} />
-              <Card.Body>
-                <Card.Title>{`${author.name} ${author.surname}`}</Card.Title>
-                <Card.Text>
-                  <strong>Email:</strong> {author.email}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Birth Date:</strong> {author.birthDate}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-      ))}
-    </Row>
+    <>
+      <Row className="blog-author-row">
+        {authors.map((author) => (
+          <Col sm={6} md={3} key={author._id}>
+            <Link to={`/authors/${author._id}`} style={{ textDecoration: 'none' }}>
+              <Card className="author-card">
+                <Card.Img variant="top" src={author.avatar} />
+                <Card.Body>
+                  <Card.Title>{`${author.name} ${author.surname}`}</Card.Title>
+                  <Card.Text>
+                    {author.email}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Birth Date:</strong> {author.birthDate}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+        ))}
+      </Row>
+      {hasMore && (
+        <div className="d-flex justify-content-center my-4">
+          <Button onClick={loadMoreAuthors}>Carica Altro</Button>
+        </div>
+      )}
+    </>
   );
 };
 

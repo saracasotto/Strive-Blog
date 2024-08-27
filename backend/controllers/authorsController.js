@@ -1,9 +1,24 @@
 import Author from '../models/Authors.js';
 
+
+
 export const getAuthors = async (req, res) => {
   try {
-    const authors = await Author.find().limit(15);
-    res.json(authors);
+    const { _page = 1, _limit = 10 } = req.query; // Parametri di paginazione
+    const skip = (parseInt(_page) - 1) * parseInt(_limit);
+
+    const totalAuthors = await Author.countDocuments(); // Conta totale degli autori
+
+    const authors = await Author.find()
+      .skip(skip) // Salta gli autori delle pagine precedenti
+      .limit(parseInt(_limit)); // Limita il numero di autori per pagina
+
+    res.json({
+      totalAuthors: totalAuthors,
+      totalPages: Math.ceil(totalAuthors / _limit),
+      currentPage: parseInt(_page),
+      authors: authors,
+    });
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
@@ -72,6 +87,15 @@ export const deleteAuthor = async (req, res) => {
   }
 };
 
+
+export const deleteAllAuthors = async (req, res) => {
+  try {
+    await Author.deleteMany({}); // Cancella tutti i documenti nella collezione Author
+    res.json({ message: 'Tutti gli autori sono stati cancellati' });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore del server: ' + error.message });
+  }
+};
 
 export const uploadAuthorAvatar = async (req, res) => {
   try {

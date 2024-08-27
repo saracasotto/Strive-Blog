@@ -13,6 +13,8 @@ export const getBlogPosts = async (req, res) => {
 
     res.json({
       totalPosts: totalPosts,
+      totalPages: Math.ceil(totalPosts / _limit),
+      currentPage: parseInt(_page),
       posts: posts,
     });
   } catch (error) {
@@ -57,6 +59,16 @@ export const deleteBlogPost = async (req, res) => {
     else res.status(404).send('Post not found');
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Funzione per cancellare tutti i blog posts
+export const deleteAllBlogPosts = async (req, res) => {
+  try {
+    await BlogPost.deleteMany({}); // Cancella tutti i documenti nella collezione BlogPost
+    res.json({ message: 'Tutti i blog posts sono stati cancellati' });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
 

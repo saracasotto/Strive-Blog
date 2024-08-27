@@ -80,3 +80,8 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:5000/blogposts/66c629b9e85014bb759dcf19
+
+
+###
+# Richiesta per cancellare tutti i blog posts
+DELETE http://localhost:5000/blogposts

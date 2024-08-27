@@ -7,6 +7,7 @@ import {
   createBlogPost,
   updateBlogPost,
   deleteBlogPost,
+  deleteAllBlogPosts,
   uploadBlogPostCover
 } from '../controllers/blogPostsController.js';
 
@@ -17,6 +18,7 @@ router.get('/:id', getBlogPostById);
 router.post('/', createBlogPost);
 router.put('/:id', updateBlogPost);
 router.delete('/:id', deleteBlogPost);
+router.delete('/', deleteAllBlogPosts);
 router.patch('/:id/cover', upload.single('coverImage'), uploadBlogPostCover);
 
 

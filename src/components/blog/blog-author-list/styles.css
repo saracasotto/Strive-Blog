@@ -9,7 +9,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 3em auto;
-  max-width: 90%;
+  max-width: 85%;
 }
 
 .author-card:hover {
@@ -27,19 +27,22 @@
 }
 
 .author-card .card-body {
-  padding: 1.25rem;
+  padding: 1em;
+}
+
+.author-card .card-body>* {
+  margin: 0.3em;
 }
 
 .author-name {
-  font-size: 1.5rem;
+  font-size: 1.2em;
   font-weight: 600;
   color: #333;
   margin-bottom: 0.5rem;
 }
 
-.author-email,
-.author-birthdate {
-  font-size: 0.9rem;
+.card-text{
+  font-size: 0.8em;
   color: #666;
 }
 

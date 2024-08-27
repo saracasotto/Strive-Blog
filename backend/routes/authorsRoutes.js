@@ -7,6 +7,7 @@ import {
   createAuthor,
   updateAuthor,
   deleteAuthor,
+  deleteAllAuthors,
   uploadAuthorAvatar
 } from '../controllers/authorsController.js';
 
@@ -17,6 +18,7 @@ router.get('/:id', getAuthorById);
 router.post('/', createAuthor);
 router.put('/:id', updateAuthor);
 router.delete('/:id', deleteAuthor);
+router.delete('/', deleteAllAuthors); // Nuova rotta per cancellare tutti gli autori
 router.patch('/:id/avatar', upload.single('avatar'), uploadAuthorAvatar);
 
 

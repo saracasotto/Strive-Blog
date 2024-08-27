@@ -102,3 +102,9 @@ DELETE http://localhost:5000/authors/64d5bb10fc13ae4a00000123
 ###
 
 DELETE http://localhost:5000/authors/66c327b919ee069795c247e7
+
+###
+
+# Richiesta per cancellare tutti gli autori
+DELETE http://localhost:5000/authors
+
