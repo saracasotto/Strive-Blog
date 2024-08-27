@@ -7,7 +7,7 @@ import cloudinary from './cloudinaryConfig.js';
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'authors', // Puoi cambiare il nome della cartella se necessario
+    folder: 'authors',
     allowed_formats: ['jpg', 'png'],
   },
 });
