@@ -1,5 +1,5 @@
 import express from 'express';
-import upload from '../middlewares/multerConfig.js';
+import upload from '../config/multerConfig.js';
 
 import {
   getAuthors,
