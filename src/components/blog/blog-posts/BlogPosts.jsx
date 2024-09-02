@@ -60,8 +60,7 @@ const BlogPosts = () => {
 
   return (
     <Container fluid="sm" className='mt-5'>
-      <Row className="blog-post-row text-center">
-        <h1>Blog Posts</h1>
+      <Row className="blog-post-row text-center mt-3">
         {posts.length > 0 ? (
           posts.map(post => (
             <Col lg={4} key={post._id} className="blog-post-container">

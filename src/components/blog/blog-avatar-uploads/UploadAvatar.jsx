@@ -33,7 +33,8 @@ const UploadAvatar = () => {
         const data = await response.json();
         setSuccess("Avatar caricato con successo!");
         setError(null);
-        // Naviga indietro o ad un'altra pagina se necessario
+
+        
         setTimeout(() => {
           navigate(`/authors/${id}`);
         }, 2000);
