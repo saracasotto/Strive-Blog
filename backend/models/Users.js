@@ -2,38 +2,36 @@ import mongoose from "mongoose";
 
 
 const userSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
+    {
+      username: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true,
+      },
+      password: {
+        type: String,
+        required: true,
+      },
+      verifiedAt: {
+        type: Date,
+        default: null,
+      },
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
+    {
+      timestamps: true,  // Lascia che Mongoose gestisca automaticamente i timestamps
     },
-    password: {
-      type: String,
-      required: true,
-    },
-    verifiedAt: {
-      type: Date,
-      default: null,
-    },
-  },
-  {
-    timestamps: {
-      createdAt: "createdAt",
-      updatedAt: "updatedAt",
-    },
-  },
-  {
-    collection: "users",
-  }
-);
+    {
+      collection: "users",
+    }
+  );
+  
 
 
 
