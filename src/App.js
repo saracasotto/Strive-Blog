@@ -16,23 +16,27 @@ import Register from "./components/blog/register-login/Register";
 import Login from "./components/blog/register-login/Login";
 
 function App() {
+  const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
+
   return (
     <Router>
       <NavBar />
       <Routes>
-        {/* Reindirizza la rotta principale alla pagina di Login */}
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/home" element={<Home />} />
+        {/* Se non autenticato, reindirizza sempre alla pagina di login */}
+        <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/new" element={<NewBlogPost />} />
-        <Route path="/blogposts" element={<BlogPosts />} />
-        <Route path="/blogposts/:id" element={<BlogPostDetails />} />
-        <Route path="/authors" element={<BlogAuthorsList />} />
-        <Route path="/authors/:id" element={<AuthorDetails />}/>
-        <Route path="/authors/:id/avatar" element={<UploadAvatar />} />
-        <Route path="/blogposts/:id/cover" element={<UploadCover />} />
-        <Route path="/blogposts/:id/comments/:commentId" element={<CommentDetails />} />
+        {/* Tutte le altre rotte private richiedono autenticazione */}
+        <Route path="/new" element={isAuthenticated ? <NewBlogPost /> : <Navigate to="/login" />} />
+        <Route path="/blogposts" element={isAuthenticated ? <BlogPosts /> : <Navigate to="/login" />} />
+        <Route path="/blogposts/:id" element={isAuthenticated ? <BlogPostDetails /> : <Navigate to="/login" />} />
+        <Route path="/authors" element={isAuthenticated ? <BlogAuthorsList /> : <Navigate to="/login" />} />
+        <Route path="/authors/:id" element={isAuthenticated ? <AuthorDetails /> : <Navigate to="/login" />} />
+        <Route path="/authors/:id/avatar" element={isAuthenticated ? <UploadAvatar /> : <Navigate to="/login" />} />
+        <Route path="/blogposts/:id/cover" element={isAuthenticated ? <UploadCover /> : <Navigate to="/login" />} />
+        <Route path="/blogposts/:id/comments/:commentId" element={isAuthenticated ? <CommentDetails /> : <Navigate to="/login" />} />
+        {/* Reindirizza qualsiasi altra rotta alla pagina di login */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
       <Footer />
     </Router>
