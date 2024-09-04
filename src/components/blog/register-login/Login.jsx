@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 const Login = () => {
-  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
   const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
@@ -23,13 +28,14 @@ const Login = () => {
         },
         body: JSON.stringify(loginData),
       });
-      
+
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-        localStorage.setItem('token', result.token);  // Salva il token
+        localStorage.setItem('token', result.token);  // Salva il token nel localStorage
         navigate('/');  // Reindirizza alla home
       } else {
-        console.error('Login failed');
+        // Gestisci errori di login
+        console.error('Login failed:', result.message);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -37,35 +43,43 @@ const Login = () => {
   };
 
   return (
-    <Container fluid="sm" className="mt-5">
-      <h2>Login</h2>
-      <Form onSubmit={handleLoginSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={loginData.email}
-            onChange={handleLoginChange}
-          />
-        </Form.Group>
+    <Container fluid="sm" className='mt-3'>
+      {isAuthenticated ? (
+        <Alert variant="success">
+          Sei già loggato!
+        </Alert>
+      ) : (
+        <><h1>Accedi per poter visualizzare il contenuto</h1>
+          <h2 className='mt-5'>Login</h2>
+          <Form onSubmit={handleLoginSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                value={loginData.email}
+                onChange={handleLoginChange}
+              />
+            </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={loginData.password}
-            onChange={handleLoginChange}
-          />
-        </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={loginData.password}
+                onChange={handleLoginChange}
+              />
+            </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-3">
-          Login
-        </Button>
-      </Form>
+            <Button variant="primary" type="submit" className='mt-3'>
+              Login
+            </Button>
+          </Form>
+        </>
+      )}
     </Container>
   );
 };

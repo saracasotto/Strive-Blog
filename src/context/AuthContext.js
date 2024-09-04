@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
@@ -8,17 +7,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log("Token trovato:", token);
     setIsAuthenticated(!!token);
   }, []);
 
   const login = (token) => {
     localStorage.setItem('token', token);
     setIsAuthenticated(true);
+    console.log("Login eseguito, isAuthenticated:", isAuthenticated);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    console.log("Logout eseguito, isAuthenticated:", isAuthenticated);
   };
 
   return (

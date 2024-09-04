@@ -18,10 +18,11 @@ const NavBar = () => {
         {/* Collapsible Navbar Content */}
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto me-2">
-            <Nav.Link as={Link} to="/register">Register</Nav.Link>
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
             <Nav.Link as={Link} to="/blogposts">Posts</Nav.Link>
             <Nav.Link as={Link} to="/authors">Authors</Nav.Link>
+            <Nav.Link as={Link} to="/register">Register</Nav.Link>
+            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
           </Nav>
           
           <Button as={Link} to="/new" className="blog-navbar-add-button bg-dark" size="sm">
@@ -37,6 +38,7 @@ const NavBar = () => {
             </svg>
             Nuovo Articolo
           </Button>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>
