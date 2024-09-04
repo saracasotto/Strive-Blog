@@ -38,7 +38,7 @@ const generateBlogPosts = (num, authors) => {
         value: faker.number.int({ min: 1, max: 15 }), // Usa faker.number.int() per numeri interi
         unit: 'minutes',
       },
-      author: randomAuthor._id,
+      author: `${faker.person.firstName() } ${faker.person.lastName()}`,
       content: faker.lorem.paragraphs(),
     });
     blogPosts.push(blogPost);
