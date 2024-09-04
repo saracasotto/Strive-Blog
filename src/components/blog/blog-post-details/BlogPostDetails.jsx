@@ -35,7 +35,7 @@ const BlogPostDetails = () => {
     if (!post) return <p>Post not found.</p>;
 
     return (
-        <Container fluid="sm" className='mt-5'>
+        <Container className='mt-5'>
             <Row className="blog-post-details">
                 <h2>{post.title}</h2>
                 <img src={post.cover} alt={post.title} />

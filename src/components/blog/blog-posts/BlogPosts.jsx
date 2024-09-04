@@ -59,7 +59,7 @@ const BlogPosts = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <Container fluid="sm" className='mt-5'>
+    <Container className='mt-5'>
       <Row className="blog-post-row text-center mt-3">
         {posts.length > 0 ? (
           posts.map(post => (

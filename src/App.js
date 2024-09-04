@@ -5,41 +5,43 @@ import Footer from "./components/footer/Footer";
 import Home from "./views/home/Home";
 import NewBlogPost from "./views/new/New";
 import BlogAuthorsList from "./components/blog/blog-author-list/BlogAuthorsList";
-import AuthorDetails from "./components/blog/blog-author-details/AuthorDetails"
+import AuthorDetails from "./components/blog/blog-author-details/AuthorDetails";
 import BlogPosts from "./components/blog/blog-posts/BlogPosts";
-import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails"
+import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import UploadAvatar from "./components/blog/blog-avatar-uploads/UploadAvatar";
 import UploadCover from "./components/blog/blog-avatar-uploads/UploadCover";
 import CommentDetails from "./components/blog/blog-comments/CommentDetails";
 import Register from "./components/blog/register-login/Register";
 import Login from "./components/blog/register-login/Login";
+import ProtectedRoute from "./components/blog/register-login/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
+import { Container } from "react-bootstrap";
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
-
   return (
-    <Router>
-      <NavBar />
-      <Routes>
-        {/* Se non autenticato, reindirizza sempre alla pagina di login */}
-        <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        {/* Tutte le altre rotte private richiedono autenticazione */}
-        <Route path="/new" element={isAuthenticated ? <NewBlogPost /> : <Navigate to="/login" />} />
-        <Route path="/blogposts" element={isAuthenticated ? <BlogPosts /> : <Navigate to="/login" />} />
-        <Route path="/blogposts/:id" element={isAuthenticated ? <BlogPostDetails /> : <Navigate to="/login" />} />
-        <Route path="/authors" element={isAuthenticated ? <BlogAuthorsList /> : <Navigate to="/login" />} />
-        <Route path="/authors/:id" element={isAuthenticated ? <AuthorDetails /> : <Navigate to="/login" />} />
-        <Route path="/authors/:id/avatar" element={isAuthenticated ? <UploadAvatar /> : <Navigate to="/login" />} />
-        <Route path="/blogposts/:id/cover" element={isAuthenticated ? <UploadCover /> : <Navigate to="/login" />} />
-        <Route path="/blogposts/:id/comments/:commentId" element={isAuthenticated ? <CommentDetails /> : <Navigate to="/login" />} />
-        {/* Reindirizza qualsiasi altra rotta alla pagina di login */}
-        <Route path="*" element={<Navigate to="/login" />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <NavBar />
+        <Container fluid="sm">
+        <Routes>
+          <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/new" element={<ProtectedRoute element={<NewBlogPost />} />} />
+          <Route path="/blogposts" element={<ProtectedRoute element={<BlogPosts />} />} />
+          <Route path="/blogposts/:id" element={<ProtectedRoute element={<BlogPostDetails />} />} />
+          <Route path="/authors" element={<ProtectedRoute element={<BlogAuthorsList />} />} />
+          <Route path="/authors/:id" element={<ProtectedRoute element={<AuthorDetails />} />} />
+          <Route path="/authors/:id/avatar" element={<ProtectedRoute element={<UploadAvatar />} />} />
+          <Route path="/blogposts/:id/cover" element={<ProtectedRoute element={<UploadCover />} />} />
+          <Route path="/blogposts/:id/comments/:commentId" element={<ProtectedRoute element={<CommentDetails />} />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+        </Container>
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
 }
 

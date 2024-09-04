@@ -35,13 +35,15 @@ const BlogAuthorsList = () => {
   };
 
   return (
-    <Container fluid="sm" className='mt-5'>
+    <Container  className='mt-5'>
       <Row className="blog-author-row">
         {authors.map((author) => (
-          <Col sm={6} md={3} key={author._id}>
+          <Col sm={6} md={4} xl={3} key={author._id}>
             <Link to={`/authors/${author._id}`} style={{ textDecoration: 'none' }}>
               <Card className="author-card">
-                <Card.Img variant="top" src={author.avatar} />
+                <div className="image-container">
+                  <Card.Img variant="top" src={author.avatar} />
+                </div>
                 <Card.Body>
                   <Card.Title>{`${author.name} ${author.surname}`}</Card.Title>
                   <Card.Text>

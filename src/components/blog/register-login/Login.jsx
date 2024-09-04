@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: ''
-  });
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
     setLoginData({
@@ -24,18 +23,21 @@ const Login = () => {
         },
         body: JSON.stringify(loginData),
       });
-      const result = await response.json();
-      console.log('Login successful:', result);
-      // Salva il token JWT in locale
-      localStorage.setItem('token', result.token);
-      // Puoi gestire la risposta come necessario
+      
+      if (response.ok) {
+        const result = await response.json();
+        localStorage.setItem('token', result.token);  // Salva il token
+        navigate('/');  // Reindirizza alla home
+      } else {
+        console.error('Login failed');
+      }
     } catch (error) {
       console.error('Error during login:', error);
     }
   };
 
   return (
-    <Container fluid="sm" className='mt-5'>
+    <Container fluid="sm" className="mt-5">
       <h2>Login</h2>
       <Form onSubmit={handleLoginSubmit}>
         <Form.Group controlId="formBasicEmail">
@@ -60,7 +62,7 @@ const Login = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className='mt-3'>
+        <Button variant="primary" type="submit" className="mt-3">
           Login
         </Button>
       </Form>

@@ -27,9 +27,11 @@ const AuthorDetails = () => {
   }
 
   return (
-    <Container fluid="sm" className="mt-5">
+    <Container>
       <Card className="author-detail-card">
-        <Card.Img variant="top" src={author.avatar} />
+        <div className="image-container">
+          <Card.Img variant="top" src={author.avatar} />
+        </div>
         <Card.Body>
           <Card.Title>{`${author.name} ${author.surname}`}</Card.Title>
           <Card.Text>
@@ -44,6 +46,7 @@ const AuthorDetails = () => {
           </Link>
         </Card.Body>
       </Card>
+
     </Container>
   );
 };

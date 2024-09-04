@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -7,6 +8,9 @@ const Register = () => {
     email: '',
     password: ''
   });
+  
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegisterChange = (e) => {
     setRegisterData({
@@ -26,11 +30,21 @@ const Register = () => {
         body: JSON.stringify(registerData),
       });
       const result = await response.json();
-      console.log('Registration successful:', result);
-      // Puoi gestire la risposta come necessario
+      if (response.ok) {
+        console.log('Registration successful:', result);
+        setShowModal(true);  // Mostra il modale se la registrazione è avvenuta con successo
+      } else {
+        console.error('Registration failed:', result);
+        // Puoi gestire l'errore come necessario
+      }
     } catch (error) {
       console.error('Error during registration:', error);
     }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    navigate('/login');  // Reindirizza alla pagina di login quando il modale viene chiuso
   };
 
   return (
@@ -74,6 +88,19 @@ const Register = () => {
           Register
         </Button>
       </Form>
+
+      {/* Modale per confermare la registrazione avvenuta con successo */}
+      <Modal show={showModal} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Registration Successful</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Your registration was successful! You can now log in.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleModalClose}>
+            Go to Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
