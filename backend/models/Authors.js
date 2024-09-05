@@ -6,10 +6,15 @@ const AuthorSchema = new Schema({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },  // Aggiunto per l'autenticazione
+  avatar: { type: String, required: true },
   birthDate: { type: String, required: true },
-  avatar: { type: String, required: true }
-});
+  verifiedAt: { type: Date, default: null },  // Aggiunto per verificare l'email
+  blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BlogPost' }],  // Relazione con i post
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]     // Relazione con i commenti
+}, 
+{ timestamps: true });  // Per avere createdAt e updatedAt automaticamente
 
-const Author = model('Author', AuthorSchema);
+const Author = model('Author', AuthorSchema, 'authors');
 
 export default Author;

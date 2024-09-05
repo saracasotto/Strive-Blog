@@ -9,13 +9,13 @@ const BlogPostSchema = new Schema({
     value: { type: Number, required: true },
     unit: { type: String, required: true }
   },
-  author: { type: String, required: true },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
   content: { type: String, required: true },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] // Referencing Comments
 
 });
 
 // Creazione del modello basato sullo schema
-const BlogPost = mongoose.model('BlogPost', BlogPostSchema);
+const BlogPost = mongoose.model('BlogPost', BlogPostSchema, 'blogposts');
 
 export default BlogPost;

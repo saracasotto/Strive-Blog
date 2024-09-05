@@ -1,85 +1,54 @@
+
+### OTTENERE TUTTI I BLOGPOST
 GET http://localhost:5000/blogposts
 
-###
+### OTTENERE SOLO UN POST
+GET http://localhost:5000/blogposts/{postId}
 
-GET http://localhost:5000/blogposts/66c6c25572d50b71605be95e
 
-###
+### OTTENERE I POST DI UN AUTORE
+GET http://localhost:5000/authors/{authorId}/blogposts
 
-GET http://localhost:5000/blogposts/66c6d85bd1cb5222f22b4ae6
 
-###
-
+### CREARE UN POST NUOVO
 POST http://localhost:5000/blogposts
 Content-Type: application/json
 
 {
   "category": "Tech",
-  "title": "New Post",
-  "cover": "http://example.com/image.jpg",
+  "title": "Nuovo Post su Tecnologia",
+  "cover": "https://picsum.photos/200/200",
   "readTime": {
     "value": 5,
-    "unit": "minutes"
+    "unit": "min"
   },
-  "author": "author@example.com",
-  "content": "This is the content of the post."
+  "author": "{authorId}",  // ID dell'autore
+  "content": "Questo è il contenuto del post."
 }
 
 
-###
+### AGGIORNARE UN POST
 
-POST http://localhost:5000/blogposts
-Content-Type: application/json
-
-{
-  "category": "Science",
-  "title": "Science Post",
-  "cover": "http://example.com/image.jpg",
-  "readTime": {
-    "value": 7,
-    "unit": "minutes"
-  },
-  "author": "author2@example.com",
-  "content": "This is the content of the science post."
-}
-
-###
-
-PUT http://localhost:5000/blogposts/66c6c25572d50b71605be95e
+PUT http://localhost:5000/blogposts/{postId}
 Content-Type: application/json
 
 {
   "category": "Tech",
-  "title": "New Post",
-  "cover": "https://picsum.photos/1200/630",
+  "title": "Post Aggiornato su Tecnologia",
+  "cover": "https://picsum.photos/300/300",
   "readTime": {
-    "value": 5,
-    "unit": "minutes"
+    "value": 10,
+    "unit": "min"
   },
-  "author": "author@example.com",
-  "content": "This is the content of the post."
+  "author": "{authorId}",  // ID dell'autore
+  "content": "Questo è il contenuto aggiornato del post."
 }
 
-###
 
-PUT http://localhost:5000/blogposts/66c6d85bd1cb5222f22b4ae6
-Content-Type: application/json
 
-{
-  "category": "Science",
-  "title": "Science Post",
-  "cover": "https://picsum.photos/1200/630",
-  "readTime": {
-    "value": 7,
-    "unit": "minutes"
-  },
-  "author": "author2@example.com",
-  "content": "This is the content of the science post."
-}
+### CANCELLARE UN POST
 
-###
-
-DELETE http://localhost:5000/blogposts/66c629b9e85014bb759dcf19
+DELETE http://localhost:5000/blogposts/{postId}
 
 
 ###

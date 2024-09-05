@@ -1,23 +1,14 @@
+
+### OTTENERE TUTTI GLI AUTORI
 GET http://localhost:5000/authors
 
-###
 
-GET http://localhost:5000/authors/66bf7ed02b54324f29280441
+### OTTENERE UN AUTORE
+GET GET http://localhost:5000/authors/{authorId}
 
-###
 
-GET http://localhost:5000/authors/66c327b919ee069795c247e7
 
-###
-
-GET http://localhost:5000/authors/66c62b3045882dc9b308d0de
-
-###
-
-GET http://localhost:5000/authors/66c62c0045882dc9b308d0e1
-
-###
-
+### CREARE UN AUTORE
 POST http://localhost:5000/authors
 Content-Type: application/json
 
@@ -25,56 +16,17 @@ Content-Type: application/json
   "name": "Mario",
   "surname": "Rossi",
   "email": "mario.rossi@example.com",
+  "password": "password123",
   "birthDate": "1985-03-15",
   "avatar": "https://picsum.photos/200/200"
 }
 
-###
 
-POST http://localhost:5000/authors
+### MODIFICARE UN AUTORE
+PUT http://localhost:5000/authors/{authorId}
 Content-Type: application/json
 
 {
-  "name": "Anna",
-  "surname": "Lombardi",
-  "email": "anna.lombardi@example.com",
-  "birthDate": "1976-03-22",
-  "avatar": "https://picsum.photos/200/200"
-}
-
-###
-
-POST http://localhost:5000/authors
-Content-Type: application/json
-
-{
-  "name": "Giulia",
-  "surname": "Bianchi",
-  "email": "giulia.bianchi@example.com",
-  "birthDate": "1990-04-11",
-  "avatar": "https://picsum.photos/200/200"
-}
-
-###
-
-POST http://localhost:5000/authors
-Content-Type: application/json
-
-{
-  "name": "Sara",
-  "surname": "Casotto",
-  "email": "sara.casotto@example.com",
-  "birthDate": "1992-11-20",
-  "avatar": "https://picsum.photos/200/200"
-}
-
-###
-
-
-PUT http://localhost:5000/authors/66bf7ed02b54324f29280441
-Content-Type: application/json
-
-{ 
   "name": "Mario",
   "surname": "Verdi",
   "email": "mario.verdi@example.com",
@@ -82,29 +34,41 @@ Content-Type: application/json
   "avatar": "https://picsum.photos/200/200"
 }
 
-###
-PUT http://localhost:5000/authors/66c327b919ee069795c247e7
+
+### CANCELLARE UN SOLO AUTORE
+DELETE http://localhost:5000/authors/{authorId}
+
+
+
+### CANCELLARE TUTTI GLI AUTORI
+DELETE http://localhost:5000/authors
+
+
+
+### REGISTRAZIONE NUOVO UTENTE
+POST http://localhost:5000/authors/register
 Content-Type: application/json
 
 {
-  "name": "Giulia",
-  "surname": "Brambilla",
-  "email": "giulia.brambilla@example.com",
-  "birthDate": "1990-04-11",
-  "avatar": "https://picsum.photos/200/200"
+    "name": "Sara",
+    "surname": "Casotto",
+    "email": "sara@casotto.com",
+    "password": "password123",
+    "birthDate": "1992-11-20",
+    "avatar": "https://picsum.photos/200/200"
 }
 
 
-###
+### LOGIN UTENTE ESISTENTE
+POST http://localhost:5000/authors/login
+Content-Type: application/json
 
-DELETE http://localhost:5000/authors/64d5bb10fc13ae4a00000123
+{
+    "email": "sara@casotto.com",
+    "password": "password123"
+}
 
-###
 
-DELETE http://localhost:5000/authors/66c327b919ee069795c247e7
-
-###
-
-# Richiesta per cancellare tutti gli autori
-DELETE http://localhost:5000/authors
-
+### OTTENERE DATI UTENTE IDENTIFICATO
+GET http://localhost:5000/authors/me
+Authorization: Bearer <JWT_TOKEN>
