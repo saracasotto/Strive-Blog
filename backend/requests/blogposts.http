@@ -15,16 +15,18 @@ POST http://localhost:5000/blogposts
 Content-Type: application/json
 
 {
-  "category": "Tech",
-  "title": "Nuovo Post su Tecnologia",
+  "category": "Technology",
+  "title": "The Future of Technology: Innovation and Impact",
   "cover": "https://picsum.photos/200/200",
   "readTime": {
     "value": 5,
     "unit": "min"
   },
-  "author": "{authorId}",  // ID dell'autore
-  "content": "Questo è il contenuto del post."
+  "author": "66d9c85f9f9a4567c7da80c7",  
+  "content": "In the ever-evolving world of technology, innovation knows no bounds. From artificial intelligence transforming the way we work to wearable devices monitoring our health, new technologies are reshaping every aspect of our lives. Cloud solutions allow us to access our data anywhere and anytime, while augmented and virtual reality are changing how we interact with the world and each other. With the rise of quantum technology, we are approaching breakthroughs that could surpass current computing capabilities. However, these innovations also bring ethical and security challenges that we must address. The future of technology is exciting, but it requires thoughtful consideration of its impact.",
+  "comments": []
 }
+
 
 
 ### AGGIORNARE UN POST
@@ -33,16 +35,18 @@ PUT http://localhost:5000/blogposts/{postId}
 Content-Type: application/json
 
 {
-  "category": "Tech",
-  "title": "Post Aggiornato su Tecnologia",
-  "cover": "https://picsum.photos/300/300",
+  "category": "Technology",
+  "title": "The Future of Technology: Innovation and Impact",
+  "cover": "https://picsum.photos/200/200",
   "readTime": {
-    "value": 10,
+    "value": 5,
     "unit": "min"
   },
-  "author": "{authorId}",  // ID dell'autore
-  "content": "Questo è il contenuto aggiornato del post."
+  "author": "66d9c85f9f9a4567c7da80c7",  
+  "content": "In the ever-evolving world of technology, innovation knows no bounds. From artificial intelligence transforming the way we work to wearable devices monitoring our health, new technologies are reshaping every aspect of our lives. Cloud solutions allow us to access our data anywhere and anytime, while augmented and virtual reality are changing how we interact with the world and each other. With the rise of quantum technology, we are approaching breakthroughs that could surpass current computing capabilities. However, these innovations also bring ethical and security challenges that we must address. The future of technology is exciting, but it requires thoughtful consideration of its impact.",
+  "comments": []
 }
+
 
 
 

@@ -38,23 +38,28 @@ export const getBlogPostById = async (req, res) => {
 export const createBlogPost = async (req, res) => {
   try {
     const { category, title, cover, readTime, content } = req.body;
-    const author = req.loggedUser; // L'utente autenticato diventa l'autore del post
 
+    // Usa un autore predefinito. Assicurati che l'ID esista nel database.
+    const defaultAuthorId = '603c72efc7d3f5d8e6b5d8f1'; // Sostituisci con un ID valido
+
+    // Crea un nuovo post con l'autore predefinito
     const newPost = new BlogPost({
       category,
       title,
       cover,
       readTime,
       content,
-      author: author._id, // Associa l'autore al post
+      author: defaultAuthorId, // Associa l'autore predefinito al post
     });
 
     await newPost.save();
     res.status(201).json(newPost);
   } catch (error) {
+    console.error('Error creating blog post:', error);
     res.status(400).json({ message: error.message });
   }
 };
+
 
 // PUT update a blog post
 export const updateBlogPost = async (req, res) => {

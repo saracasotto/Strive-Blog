@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 
@@ -8,8 +8,14 @@ const Login = () => {
     password: ''
   });
 
-  const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
   const navigate = useNavigate();
+  const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');  // Reindirizza alla home se già loggato
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLoginChange = (e) => {
     setLoginData({
@@ -44,12 +50,9 @@ const Login = () => {
 
   return (
     <Container fluid="sm" className='mt-3'>
-      {isAuthenticated ? (
-        <Alert variant="success">
-          Sei già loggato!
-        </Alert>
-      ) : (
-        <><h1>Accedi per poter visualizzare il contenuto</h1>
+      {!isAuthenticated ? (
+        <>
+          <h1>Accedi per poter visualizzare il contenuto</h1>
           <h2 className='mt-5'>Login</h2>
           <Form onSubmit={handleLoginSubmit}>
             <Form.Group controlId="formBasicEmail">
@@ -79,6 +82,10 @@ const Login = () => {
             </Button>
           </Form>
         </>
+      ) : (
+        <Alert variant="success">
+          Sei già loggato!
+        </Alert>
       )}
     </Container>
   );

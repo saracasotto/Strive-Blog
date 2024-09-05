@@ -15,11 +15,15 @@ const BlogAuthorsList = () => {
         const response = await fetch(`http://localhost:5000/authors?_page=${page}&_limit=${limit}`);
         const data = await response.json();
 
-        // Aggiorna lo stato con i nuovi autori
-        setAuthors((prevAuthors) => [...prevAuthors, ...data.authors]);
+        // Rimuove i duplicati
+        setAuthors((prevAuthors) => {
+          const existingIds = new Set(prevAuthors.map(author => author._id));
+          const newAuthors = data.filter(author => !existingIds.has(author._id));
+          return [...prevAuthors, ...newAuthors];
+        });
 
         // Controlla se ci sono più autori da caricare
-        if (data.authors.length < limit) {
+        if (data.length < limit) {
           setHasMore(false);
         }
       } catch (error) {
@@ -35,7 +39,7 @@ const BlogAuthorsList = () => {
   };
 
   return (
-    <Container  className='mt-5'>
+    <Container className='mt-5'>
       <Row className="blog-author-row">
         {authors.map((author) => (
           <Col sm={6} md={4} xl={3} key={author._id}>
