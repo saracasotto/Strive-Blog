@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 
 
@@ -24,7 +25,6 @@ export const authenticate = (req, res, next) => {
     return res.status(401).json({ message: 'Autenticazione richiesta' });
   }
 };
-
 
 //OTTENERE TUTTI GLI AUTORI
 export const getAuthors = async (req, res) => {
@@ -135,17 +135,17 @@ export const deleteAllAuthors = async (req, res) => {
 //REGISTRARE AUTORE
 export const registerAuthor = async (req, res) => {
   try {
-    const { name, surname, email, password, birthDate, avatar } = req.body;
+    const { name, surname, email, password, birthDate } = req.body;
 
     // Verifica campi obbligatori
-    if (!name || !surname || !email || !password) {
+    if (!name || !surname || !email || !password || !birthDate) {
       return res.status(400).json({ message: 'Campi obbligatori mancanti' });
     }
 
-    // Controlla se l'email o lo username esistono già
-    const existingAuthor = await Author.findOne({ $or: [{ email }] });
+    // Controlla se l'email esiste già
+    const existingAuthor = await Author.findOne({ email });
     if (existingAuthor) {
-      return res.status(409).json({ message: 'Autore giá esistente' });
+      return res.status(409).json({ message: 'Autore già esistente' });
     }
 
     // Hash della password
@@ -157,8 +157,7 @@ export const registerAuthor = async (req, res) => {
       surname,
       email,
       password: hashedPassword,
-      birthDate,
-      avatar
+      birthDate
     });
 
     const savedAuthor = await newAuthor.save();
@@ -254,8 +253,10 @@ export const uploadAuthorAvatar = async (req, res) => {
       return res.status(404).json({ message: 'Autore non trovato' });
     }
 
-    // Supponiamo che l'avatar sia stato salvato correttamente nel filesystem e che `req.file.path` contenga il percorso
-    author.avatar = req.file.path;
+    if (req.file) {
+      author.avatar = req.file.path;
+    }
+
     await author.save();
 
     res.status(200).json({ message: 'Avatar aggiornato', author });

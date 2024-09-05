@@ -7,9 +7,8 @@ const AuthorSchema = new Schema({
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },  // Aggiunto per l'autenticazione
-  avatar: { type: String, required: true },
+  avatar: { type: String},
   birthDate: { type: String, required: true },
-  verifiedAt: { type: Date, default: null },  // Aggiunto per verificare l'email
   blogPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BlogPost' }],  // Relazione con i post
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]     // Relazione con i commenti
 }, 

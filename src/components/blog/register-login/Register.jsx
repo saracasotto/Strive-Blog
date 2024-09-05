@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
-    username: '',
+    name: '',
+    surname: '',
     email: '',
-    password: ''
+    password: '',
+    birthDate: ''
   });
-  
+
   const [showModal, setShowModal] = useState(false);
+  const [authorId, setAuthorId] = useState(null);
   const navigate = useNavigate();
 
   const handleRegisterChange = (e) => {
@@ -22,7 +25,7 @@ const Register = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch('http://localhost:5000/authors/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,10 +35,11 @@ const Register = () => {
       const result = await response.json();
       if (response.ok) {
         console.log('Registration successful:', result);
-        setShowModal(true);  // Mostra il modale se la registrazione è avvenuta con successo
+        setAuthorId(result.author._id); // Memorizza l'ID dell'autore
+        setShowModal(true); // Mostra il modale per confermare la registrazione
       } else {
         console.error('Registration failed:', result);
-        // Puoi gestire l'errore come necessario
+        // Gestisci l'errore come necessario
       }
     } catch (error) {
       console.error('Error during registration:', error);
@@ -44,20 +48,31 @@ const Register = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    navigate('/login');  // Reindirizza alla pagina di login quando il modale viene chiuso
+    navigate('/login'); // Reindirizza alla pagina di login quando il modale viene chiuso
   };
 
   return (
     <Container fluid="sm" className='mt-5'>
       <h2>Register</h2>
       <Form onSubmit={handleRegisterSubmit}>
-        <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
+        <Form.Group controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            name="username"
-            placeholder="Enter username"
-            value={registerData.username}
+            name="name"
+            placeholder="Enter name"
+            value={registerData.name}
+            onChange={handleRegisterChange}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicSurname">
+          <Form.Label>Surname</Form.Label>
+          <Form.Control
+            type="text"
+            name="surname"
+            placeholder="Enter surname"
+            value={registerData.surname}
             onChange={handleRegisterChange}
           />
         </Form.Group>
@@ -84,6 +99,17 @@ const Register = () => {
           />
         </Form.Group>
 
+        <Form.Group controlId="formBasicBirthDate">
+          <Form.Label>Birth Date</Form.Label>
+          <Form.Control
+            type="date"
+            name="birthDate"
+            placeholder="Enter birth date"
+            value={registerData.birthDate}
+            onChange={handleRegisterChange}
+          />
+        </Form.Group>
+
         <Button variant="primary" type="submit" className='mt-3'>
           Register
         </Button>
@@ -94,10 +120,13 @@ const Register = () => {
         <Modal.Header closeButton>
           <Modal.Title>Registration Successful</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Your registration was successful! You can now log in.</Modal.Body>
+        <Modal.Body>Your registration was successful! You can now upload your avatar.</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleModalClose}>
+          <Button variant="secondary" onClick={handleModalClose}>
             Go to Login
+          </Button>
+          <Button variant="primary" onClick={() => navigate(`/upload-avatar/${authorId}`)}>
+            Upload Avatar
           </Button>
         </Modal.Footer>
       </Modal>
@@ -105,4 +134,5 @@ const Register = () => {
   );
 };
 
-export default Register;
+
+export default Register
