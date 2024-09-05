@@ -19,22 +19,21 @@ const UploadAvatar = () => {
       setError("Please select a file to upload.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('avatar', selectedFile);
-
+  
     try {
       const response = await fetch(`http://localhost:5000/authors/${id}/avatar`, {
         method: 'PATCH',
         body: formData,
       });
-
+  
       if (response.ok) {
-        const data = await response.json();
         setSuccess("Avatar caricato con successo!");
         setError(null);
-
-        
+  
+        // Rimuovendo la variabile 'data' non utilizzata
         setTimeout(() => {
           navigate(`/authors/${id}`);
         }, 2000);
@@ -48,6 +47,7 @@ const UploadAvatar = () => {
       setSuccess(null);
     }
   };
+  
 
   return (
     <Container fluid="sm" className="mt-5">

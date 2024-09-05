@@ -11,7 +11,7 @@ const NewBlogPost = props => {
     
     setText(draftToHtml(value));
     console.log(text)
-  });
+  }, [text]);
   return (
     <Container className="new-blog-container">
       <Form className="mt-5">
