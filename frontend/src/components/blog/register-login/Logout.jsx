@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
@@ -6,19 +6,23 @@ import { AuthContext } from '../../../context/AuthContext';
 const Logout = () => {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(true);  // Visualizzare il modale
 
-  useEffect(() => {
-    // Chiama la funzione di logout dal contesto per aggiornare lo stato globale
+  const handleLogout = () => {
+    // Esegui il logout solo quando l'utente clicca "OK" nel modale
     logout();
-  }, [logout]);
+    setShowModal(false);  // Chiudi il modale
+    navigate('/login');  // Reindirizza alla pagina di login
+  };
 
   const handleClose = () => {
+    setShowModal(false);
     navigate('/login');
   };
 
   return (
     <Container fluid="sm" className='mt-5'>
-      <Modal show={true} onHide={handleClose} centered>
+      <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Logout</Modal.Title>
         </Modal.Header>
@@ -26,7 +30,7 @@ const Logout = () => {
           Sei stato disconnesso con successo.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleLogout}>
             OK
           </Button>
         </Modal.Footer>
@@ -36,3 +40,4 @@ const Logout = () => {
 };
 
 export default Logout;
+

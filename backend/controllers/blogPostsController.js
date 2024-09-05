@@ -1,6 +1,6 @@
 import BlogPost from '../models/BlogPosts.js';
 
-// GET all blog posts with pagination
+//OTTIENI TUTTI I POST
 export const getBlogPosts = async (req, res) => {
   try {
     const { _page = 1, _limit = 10 } = req.query;
@@ -23,7 +23,7 @@ export const getBlogPosts = async (req, res) => {
   }
 };
 
-// GET a single blog post by ID
+//OTTIENI SOLO UN POST 
 export const getBlogPostById = async (req, res) => {
   try {
     const post = await BlogPost.findById(req.params.id).populate('author', 'name surname');
@@ -34,15 +34,12 @@ export const getBlogPostById = async (req, res) => {
   }
 };
 
-// POST create a new blog post
+//CREAZIONE NUOVO POST DA BACKEND
 export const createBlogPost = async (req, res) => {
   try {
     const { category, title, cover, readTime, content } = req.body;
+    const defaultAuthorId = '603c72efc7d3f5d8e6b5d8f1'; // ID autore di default per test senza autenticazione
 
-    // Usa un autore predefinito. Assicurati che l'ID esista nel database.
-    const defaultAuthorId = '603c72efc7d3f5d8e6b5d8f1'; // Sostituisci con un ID valido
-
-    // Crea un nuovo post con l'autore predefinito
     const newPost = new BlogPost({
       category,
       title,
@@ -60,8 +57,29 @@ export const createBlogPost = async (req, res) => {
   }
 };
 
+//CREAZIONE NUOVO POST CON AUTENTICAZIONE DA FRONTEND
+export const createOwnBlogPost = async (req, res) => {
+  try {
+    const { category, title, cover, readTime, content } = req.body;
 
-// PUT update a blog post
+    const newPost = new BlogPost({
+      category,
+      title,
+      cover,
+      readTime,
+      content,
+      author: req.loggedAuthor._id, // Associa l'autore autenticato al post
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error('Error creating blog post:', error);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+//MODIFICA POST DA BACKEND
 export const updateBlogPost = async (req, res) => {
   try {
     const { category, title, cover, readTime, content } = req.body;
@@ -79,7 +97,32 @@ export const updateBlogPost = async (req, res) => {
   }
 };
 
-// DELETE a blog post
+//MODIFICA POST CON AUTENTICAZIONE DA FRONTEND
+export const updateOwnBlogPost = async (req, res) => {
+  try {
+    const post = await BlogPost.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post non trovato' });
+
+    // Verifica che l'utente sia l'autore del post
+    if (post.author.toString() !== req.loggedAuthor._id.toString()) {
+      return res.status(403).json({ message: 'Non hai il permesso di modificare questo post' });
+    }
+
+    const { category, title, cover, readTime, content } = req.body;
+
+    const updatedPost = await BlogPost.findByIdAndUpdate(
+      req.params.id,
+      { category, title, cover, readTime, content },
+      { new: true }
+    );
+
+    res.json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//CANCELLA POST DA BACKEND
 export const deleteBlogPost = async (req, res) => {
   try {
     const deletedPost = await BlogPost.findByIdAndDelete(req.params.id);
@@ -90,7 +133,25 @@ export const deleteBlogPost = async (req, res) => {
   }
 };
 
-// DELETE all blog posts
+//CANCELLA POST CON AUTENTICAZIONE DA FRONTEND
+export const deleteOwnBlogPost = async (req, res) => {
+  try {
+    const post = await BlogPost.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post non trovato' });
+
+    // Verifica che l'utente sia l'autore del post
+    if (post.author.toString() !== req.loggedAuthor._id.toString()) {
+      return res.status(403).json({ message: 'Non hai il permesso di cancellare questo post' });
+    }
+
+    await BlogPost.findByIdAndDelete(req.params.id);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//CANCELLA TUTTI I POST DA BACKEND 
 export const deleteAllBlogPosts = async (req, res) => {
   try {
     await BlogPost.deleteMany({});
@@ -100,13 +161,11 @@ export const deleteAllBlogPosts = async (req, res) => {
   }
 };
 
-// Upload a blog post cover image
+//CARICA UN'IMMAGINE DEL BLOGPOST
 export const uploadBlogPostCover = async (req, res) => {
   try {
     const post = await BlogPost.findById(req.params.id);
-    if (!post) {
-      return res.status(404).json({ message: 'Post non trovato' });
-    }
+    if (!post) return res.status(404).json({ message: 'Post non trovato' });
 
     post.cover = req.file.path;
     await post.save();
@@ -116,3 +175,4 @@ export const uploadBlogPostCover = async (req, res) => {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+

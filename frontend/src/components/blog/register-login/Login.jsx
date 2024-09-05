@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Form, Button, Alert, Modal } from 'react-bootstrap';
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -8,14 +8,17 @@ const Login = () => {
     password: ''
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);  // Stato per l'alert di successo
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');  // Reindirizza alla home se già loggato
+      setShowModal(true);  // Mostra il modale se l'utente è già loggato
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated]);
 
   const handleLoginChange = (e) => {
     setLoginData({
@@ -38,14 +41,21 @@ const Login = () => {
       const result = await response.json();
       if (response.ok) {
         localStorage.setItem('token', result.token);  // Salva il token nel localStorage
-        navigate('/');  // Reindirizza alla home
+        setShowSuccessAlert(true);  // Mostra l'alert di successo
+        setTimeout(() => {
+          navigate('/');  // Reindirizza alla home dopo 2 secondi
+        }, 2000);  // Aspetta 2 secondi prima di reindirizzare
       } else {
-        // Gestisci errori di login
-        console.error('Login failed:', result.message);
+        setErrorMessage(result.message);  // Mostra l'errore se il login fallisce
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      setErrorMessage('Error during login, please try again.');
     }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    navigate('/');  // Reindirizza alla home quando il modale si chiude
   };
 
   return (
@@ -54,6 +64,19 @@ const Login = () => {
         <>
           <h1>Accedi per poter visualizzare il contenuto</h1>
           <h2 className='mt-5'>Login</h2>
+          
+          {showSuccessAlert && (
+            <Alert variant="success">
+              Login avvenuto con successo!
+            </Alert>
+          )}
+
+          {errorMessage && (
+            <Alert variant="danger">
+              {errorMessage}
+            </Alert>
+          )}
+
           <Form onSubmit={handleLoginSubmit}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -63,6 +86,7 @@ const Login = () => {
                 placeholder="Enter email"
                 value={loginData.email}
                 onChange={handleLoginChange}
+                required
               />
             </Form.Group>
 
@@ -71,9 +95,10 @@ const Login = () => {
               <Form.Control
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Enter password"
                 value={loginData.password}
                 onChange={handleLoginChange}
+                required
               />
             </Form.Group>
 
@@ -87,6 +112,19 @@ const Login = () => {
           Sei già loggato!
         </Alert>
       )}
+
+      {/* Modale per "Sei già loggato!" */}
+      <Modal show={showModal} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Sei già loggato!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sei già loggato. Vuoi tornare alla homepage?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleModalClose}>
+            Torna alla Home
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
