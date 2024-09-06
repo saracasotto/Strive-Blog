@@ -131,6 +131,25 @@ const Profile = () => {
         <Spinner animation="border" variant="primary" />
       ) : (
         <>
+
+          {userData.avatar && (
+            <Image
+            src={userData.avatar}
+            roundedCircle
+            className="profile-avatar mb-3"
+            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+          />
+          )}
+          <Form.Group controlId="formAvatar">
+            <Form.Label>Seleziona un nuovo avatar</Form.Label>
+            <Form.Control type="file" onChange={handleAvatarChange} />
+          </Form.Group>
+          <Button variant="primary" onClick={handleAvatarUpload} className="mt-3">
+            {avatarLoading ? <Spinner animation="border" size="sm" /> : 'Carica Avatar'}
+          </Button>
+
+          <hr />
+
           <Form onSubmit={handleProfileUpdate}>
             <Form.Group controlId="formName">
               <Form.Label>Nome</Form.Label>
@@ -180,24 +199,7 @@ const Profile = () => {
             </Button>
           </Form>
 
-          <hr />
 
-          <h3>Cambia Avatar</h3>
-          {userData.avatar && (
-            <Image
-              src={`http://localhost:5000/authors/${userData.avatar}`}
-              roundedCircle
-              className="mb-3"
-              width={150}
-            />
-          )}
-          <Form.Group controlId="formAvatar">
-            <Form.Label>Seleziona un nuovo avatar</Form.Label>
-            <Form.Control type="file" onChange={handleAvatarChange} />
-          </Form.Group>
-          <Button variant="primary" onClick={handleAvatarUpload} className="mt-3">
-            {avatarLoading ? <Spinner animation="border" size="sm" /> : 'Carica Avatar'}
-          </Button>
         </>
       )}
     </Container>

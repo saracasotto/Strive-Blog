@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ### AGGIORNARE UN POST
 
-PUT http://localhost:5000/blogposts/66da055dcd41133995c6cc98
+PUT http://localhost:5000/blogposts/
 Content-Type: application/json
 
 {
@@ -52,9 +52,8 @@ Content-Type: application/json
 
 ### CANCELLARE UN POST
 
-DELETE http://localhost:5000/blogposts/66da055dcd41133995c6cc98
+DELETE http://localhost:5000/blogposts/
 
 
-###
-# Richiesta per cancellare tutti i blog posts
+### CANCELLARE TUTTI I POST
 DELETE http://localhost:5000/blogposts

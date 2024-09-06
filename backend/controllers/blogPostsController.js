@@ -76,22 +76,31 @@ export const createOwnBlogPost = async (req, res) => {
   try {
     const { category, title, cover, readTime, content } = req.body;
 
+    // Crea un nuovo post con l'autore autenticato
     const newPost = new BlogPost({
       category,
       title,
       cover,
       readTime,
       content,
-      author: req.loggedAuthor._id, // Associa l'autore autenticato al post
+      author: req.loggedAuthor._id,  // Associa l'autore autenticato al post
     });
 
-    await newPost.save();
-    res.status(201).json(newPost);
+    // Salva il nuovo post
+    const savedPost = await newPost.save();
+
+    // Aggiorna l'autore aggiungendo l'ID del nuovo post all'array blogPosts
+    await Author.findByIdAndUpdate(req.loggedAuthor._id, {
+      $push: { blogPosts: savedPost._id }  // Aggiungi l'ID del post all'array blogPosts
+    });
+
+    res.status(201).json(savedPost);
   } catch (error) {
     console.error('Error creating blog post:', error);
     res.status(400).json({ message: error.message });
   }
 };
+
 
 //MODIFICA POST DA BACKEND
 export const updateBlogPost = async (req, res) => {

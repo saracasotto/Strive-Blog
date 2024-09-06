@@ -39,7 +39,6 @@ Content-Type: application/json
 DELETE http://localhost:5000/authors/{authorId}
 
 
-
 ### CANCELLARE TUTTI GLI AUTORI
 DELETE http://localhost:5000/authors
 
@@ -68,7 +67,3 @@ Content-Type: application/json
     "password": "password123"
 }
 
-
-### OTTENERE DATI UTENTE IDENTIFICATO
-GET http://localhost:5000/authors/me
-Authorization: Bearer <JWT_TOKEN>

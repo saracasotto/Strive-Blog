@@ -8,7 +8,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'authors',
-    allowed_formats: ['jpg', 'png'],
+    allowed_formats: ['jpg', 'jpeg' ,'png'],
   },
 });
 

@@ -247,20 +247,30 @@ export const deleteProfile = async (req, res) => {
 //CARICA AVATAR AUTORE AUTENTICATO
 export const uploadAuthorAvatar = async (req, res) => {
   try {
-    const author = req.loggedAuthor; // Autore autenticato già presente da authorization middleware
-
-    if (!req.file) {
-      return res.status(400).json({ message: 'Nessun file inviato.' });
+    // Trova l'autore autenticato
+    const author = await Author.findById(req.loggedAuthor._id);
+    if (!author) {
+      return res.status(404).json({ message: 'Autore non trovato' });
     }
 
-    // L'URL del file caricato su Cloudinary viene salvato
-    author.avatar = req.file.path;
+    // Verifica che il file sia stato caricato correttamente su Cloudinary
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ message: 'Errore durante il caricamento del file.' });
+    }
 
+    // Aggiorna l'avatar dell'autore
+    author.avatar = req.file.path;
     await author.save();
 
-    res.status(200).json({ message: 'Avatar aggiornato con successo', avatarUrl: author.avatar });
+    res.json({ message: 'Avatar caricato con successo', avatar: author.avatar });
   } catch (error) {
-    res.status(500).json({ message: `Errore durante l'upload dell'avatar: ${error.message}` });
+    console.error('Errore durante il caricamento dell\'avatar:', error);
+
+    // Restituisci un errore in formato JSON
+    res.status(500).json({
+      message: 'Errore del server durante il caricamento dell\'avatar',
+      error: error.toString(),  // Serializza l'errore come stringa
+    });
   }
 };
 

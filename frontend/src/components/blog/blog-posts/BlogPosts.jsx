@@ -10,8 +10,6 @@ const BlogPost = ({ post }) => (
     <h2>{post.title}</h2>
     <img src={post.cover} alt={post.title} />
     <p><strong>Category:</strong> {post.category}</p>
-
-    {/* Accedi correttamente alle proprietà di author */}
     {post.author ? (
       <p><strong>Author:</strong> {post.author.name} {post.author.surname}</p>
     ) : (

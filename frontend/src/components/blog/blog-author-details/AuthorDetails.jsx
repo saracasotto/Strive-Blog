@@ -12,6 +12,7 @@ const AuthorDetails = () => {
       try {
         const response = await fetch(`http://localhost:5000/authors/${id}`);
         const data = await response.json();
+        console.log('Dati dell\'autore:', data);
         setAuthor(data);
       } catch (error) {
         console.error('Error fetching author:', error);
@@ -48,20 +49,23 @@ const AuthorDetails = () => {
       <h3 className="mt-4">Blog Posts</h3>
       <Row>
         {author.blogPosts && author.blogPosts.length > 0 ? (
-          author.blogPosts.map(post => (
-            <Col lg={4} key={post._id}>
-              <Card className="mb-4">
-                <Card.Img variant="top" src={post.cover} />
-                <Card.Body>
-                  <Card.Title>{post.title}</Card.Title>
-                  <Card.Text>{post.content.substring(0, 100)}...</Card.Text>
-                  <Link to={`/blogposts/${post._id}`}>
-                    <Button variant="primary">Leggi di più</Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
+          author.blogPosts.map(post => {
+            console.log('Post:', post);
+            return (
+              <Col lg={4} key={post._id}>
+                <Card className="mb-4">
+                  <Card.Img variant="top" src={post.cover || 'default-image.jpg'} />
+                  <Card.Body>
+                    <Card.Title>{post.title}</Card.Title>
+                    <Card.Text>{post.content.substring(0, 100)}...</Card.Text>
+                    <Link to={`/blogposts/${post._id}`}>
+                      <Button variant="primary">Leggi di più</Button>
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })
         ) : (
           <p>Nessun post disponibile</p>
         )}
@@ -69,5 +73,6 @@ const AuthorDetails = () => {
     </Container>
   );
 };
+
 
 export default AuthorDetails;
