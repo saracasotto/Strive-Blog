@@ -74,11 +74,11 @@ const NewBlogPost = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option>Categoria 1</option>
-            <option>Categoria 2</option>
-            <option>Categoria 3</option>
-            <option>Categoria 4</option>
-            <option>Categoria 5</option>
+            <option>Science</option>
+            <option>Technology</option>
+            <option>innovation</option>
+            <option>Guides and Tutorials</option>
+            <option>News</option>
           </Form.Control>
         </Form.Group>
 

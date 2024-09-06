@@ -244,23 +244,23 @@ export const deleteProfile = async (req, res) => {
   }
 };
 
-//CARICA AVATAR
+//CARICA AVATAR AUTORE AUTENTICATO
 export const uploadAuthorAvatar = async (req, res) => {
   try {
-    const author = await Author.findById(req.params.id);
-    if (!author) {
-      return res.status(404).json({ message: 'Autore non trovato' });
+    const author = req.loggedAuthor; // Autore autenticato già presente da authorization middleware
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Nessun file inviato.' });
     }
 
-    if (req.file) {
-      author.avatar = req.file.path;
-    }
+    // L'URL del file caricato su Cloudinary viene salvato
+    author.avatar = req.file.path;
 
     await author.save();
 
-    res.status(200).json({ message: 'Avatar aggiornato', author });
+    res.status(200).json({ message: 'Avatar aggiornato con successo', avatarUrl: author.avatar });
   } catch (error) {
-    res.status(500).json({ message: 'Errore durante l\'upload dell\'avatar: ' + error.message });
+    res.status(500).json({ message: `Errore durante l'upload dell'avatar: ${error.message}` });
   }
 };
 
