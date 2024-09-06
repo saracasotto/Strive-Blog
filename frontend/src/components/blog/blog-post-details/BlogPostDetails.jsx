@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import "./BlogPostDetails.css"
+import "./BlogPostDetails.css";
 import Comments from '../blog-comments/Comments';
 import { Row, Container } from 'react-bootstrap';
 
@@ -40,7 +40,14 @@ const BlogPostDetails = () => {
                 <h2>{post.title}</h2>
                 <img src={post.cover} alt={post.title} />
                 <p><strong>Category:</strong> {post.category}</p>
-                <p><strong>Author:</strong> {post.author}</p>
+
+                {/* Controllo per renderizzare correttamente l'autore */}
+                {post.author ? (
+                    <p><strong>Author:</strong> {post.author.name} {post.author.surname}</p>
+                ) : (
+                    <p><strong>Author:</strong> Unknown</p>
+                )}
+
                 <p><strong>Read Time:</strong> {post.readTime.value} {post.readTime.unit}</p>
                 <div className="post-content">
                     {post.content}

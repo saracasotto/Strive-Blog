@@ -15,15 +15,15 @@ POST http://localhost:5000/blogposts
 Content-Type: application/json
 
 {
-  "category": "Technology",
-  "title": "The Future of Technology: Innovation and Impact",
+  "category": "Science",
+  "title": "Revolutionary Biogenetic Technique",
   "cover": "https://picsum.photos/200/200",
   "readTime": {
     "value": 5,
     "unit": "min"
   },
-  "author": "66d9c85f9f9a4567c7da80c7",  
-  "content": "In the ever-evolving world of technology, innovation knows no bounds. From artificial intelligence transforming the way we work to wearable devices monitoring our health, new technologies are reshaping every aspect of our lives. Cloud solutions allow us to access our data anywhere and anytime, while augmented and virtual reality are changing how we interact with the world and each other. With the rise of quantum technology, we are approaching breakthroughs that could surpass current computing capabilities. However, these innovations also bring ethical and security challenges that we must address. The future of technology is exciting, but it requires thoughtful consideration of its impact.",
+  "author": "66d9c8459f9a4567c7da80c4",  
+  "content": "Scientists have made a groundbreaking discovery in the field of biogenetics, revealing a new technique that could double the lifespan of certain lab organisms. This advancement, achieved at the Biotech Research Institute in California, opens up possibilities for extending human health and longevity. The study will be published in the upcoming issue of 'Global Science Review.'",
   "comments": []
 }
 
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ### AGGIORNARE UN POST
 
-PUT http://localhost:5000/blogposts/{postId}
+PUT http://localhost:5000/blogposts/66da055dcd41133995c6cc98
 Content-Type: application/json
 
 {
@@ -42,8 +42,8 @@ Content-Type: application/json
     "value": 5,
     "unit": "min"
   },
-  "author": "66d9c85f9f9a4567c7da80c7",  
-  "content": "In the ever-evolving world of technology, innovation knows no bounds. From artificial intelligence transforming the way we work to wearable devices monitoring our health, new technologies are reshaping every aspect of our lives. Cloud solutions allow us to access our data anywhere and anytime, while augmented and virtual reality are changing how we interact with the world and each other. With the rise of quantum technology, we are approaching breakthroughs that could surpass current computing capabilities. However, these innovations also bring ethical and security challenges that we must address. The future of technology is exciting, but it requires thoughtful consideration of its impact.",
+  "author": "66d9c8459f9a4567c7da80c4",  
+  "content": "In the ever-evolving world of technology, innovation knows no bounds. From artificial intelligence transforming the way we work to wearable devices monitoring our health, new technologies are reshaping every aspect of our lives. Cloud solutions allow us to access our data anywhere and anytime, while augmented and virtual reality are changing how we interact with the world and each other.",
   "comments": []
 }
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 ### CANCELLARE UN POST
 
-DELETE http://localhost:5000/blogposts/{postId}
+DELETE http://localhost:5000/blogposts/66da055dcd41133995c6cc98
 
 
 ###

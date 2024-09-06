@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from '../../context/AuthContext';  // Importa il contesto di autenticazione
 import logo from "../../assets/logo.png";
 import "./styles.css";
 
 const NavBar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, logout } = useContext(AuthContext);  // Usa il contesto per autenticazione e logout
   const navigate = useNavigate();
 
-  // Controlliamo se l'utente è loggato
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);  // L'utente è loggato
-    } else {
-      setIsAuthenticated(false);  // L'utente non è loggato
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('token');  // Rimuovi il token dal localStorage
-    setIsAuthenticated(false);  // Aggiorna lo stato
+    logout();  // Usa la funzione logout dal contesto
     navigate('/login');  // Reindirizza alla pagina di login
   };
 

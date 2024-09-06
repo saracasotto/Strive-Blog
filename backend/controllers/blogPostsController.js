@@ -38,7 +38,7 @@ export const getBlogPostById = async (req, res) => {
 export const createBlogPost = async (req, res) => {
   try {
     const { category, title, cover, readTime, content } = req.body;
-    const defaultAuthorId = '603c72efc7d3f5d8e6b5d8f1'; // ID autore di default per test senza autenticazione
+    const defaultAuthorId = '66d9c8459f9a4567c7da80c4'; // ID autore di default per test senza autenticazione
 
     const newPost = new BlogPost({
       category,

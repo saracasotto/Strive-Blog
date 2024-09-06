@@ -106,7 +106,7 @@ const Profile = () => {
   };
 
   return (
-    <Container fluid="sm" className="mt-5">
+    <Container className="mt-5">
       <h2>Profilo Utente</h2>
 
       {successMessage && <Alert variant="success">{successMessage}</Alert>}

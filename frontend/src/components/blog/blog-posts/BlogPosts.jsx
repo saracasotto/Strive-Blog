@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
-import './BlogPosts.css'
+import './BlogPosts.css';
 
 // Componente per la visualizzazione di un singolo post
 const BlogPost = ({ post }) => (
@@ -9,7 +9,14 @@ const BlogPost = ({ post }) => (
     <h2>{post.title}</h2>
     <img src={post.cover} alt={post.title} />
     <p><strong>Category:</strong> {post.category}</p>
-    <p><strong>Author:</strong> {post.author}</p>
+
+    {/* Accedi correttamente alle proprietà di author */}
+    {post.author ? (
+      <p><strong>Author:</strong> {post.author.name} {post.author.surname}</p>
+    ) : (
+      <p><strong>Author:</strong> Unknown</p>
+    )}
+    
     <p><strong>Read Time:</strong> {post.readTime.value} {post.readTime.unit}</p>
     <div className="post-content">
       {post.content}
@@ -50,8 +57,8 @@ const useFetchPosts = (currentPage, postsPerPage) => {
 
 // Componente principale per la visualizzazione dei post del blog
 const BlogPosts = () => {
-  const postsPerPage = 5; // Numero fisso di post per pagina, ora non utilizzato
-  const [currentPage] = useState(1); // Definito ma non usato
+  const postsPerPage = 5; // Numero fisso di post per pagina
+  const [currentPage] = useState(1); // Pagina corrente
 
   const { posts, loading, error } = useFetchPosts(currentPage, postsPerPage);
 
@@ -70,7 +77,6 @@ const BlogPosts = () => {
         ) : (
           <p>No posts available.</p>
         )}
-        {/* Paginazione rimossa */}
       </Row>
     </Container>
   );

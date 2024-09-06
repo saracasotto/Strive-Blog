@@ -9,7 +9,7 @@ const BlogPostSchema = new Schema({
     value: { type: Number, required: true },
     unit: { type: String, required: true }
   },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author', required: true },
   content: { type: String, required: true },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] // Referencing Comments
 
