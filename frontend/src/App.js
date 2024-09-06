@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/blog/register-login/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { Container } from "react-bootstrap";
 import Logout from "./components/blog/register-login/Logout";
+import Profile from "./components/blog/register-login/Profile";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<ProtectedRoute element={<Logout />} />} />
+          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           <Route path="/new" element={<ProtectedRoute element={<NewBlogPost />} />} />
           <Route path="/blogposts" element={<ProtectedRoute element={<BlogPosts />} />} />
           <Route path="/blogposts/:id" element={<ProtectedRoute element={<BlogPostDetails />} />} />

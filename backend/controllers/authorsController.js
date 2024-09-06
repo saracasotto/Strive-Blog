@@ -6,8 +6,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
-//VERIFICA TOKEN JWT
 export const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -269,11 +267,14 @@ export const uploadAuthorAvatar = async (req, res) => {
 //OTTENERE DATI AUTORE AUTENTICATO
 export const me = async (req, res) => {
   try {
-    const author = await Author.findById(req.authorId).select('-password'); // Esclude la password
+    // Usa req.loggedAuthor che è impostato nel middleware di autorizzazione
+    const author = req.loggedAuthor;
+
     if (!author) {
       return res.status(404).json({ message: 'Autore non trovato' });
     }
-    res.json(author);
+
+    res.json(author);  // Ritorna l'autore autenticato
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }

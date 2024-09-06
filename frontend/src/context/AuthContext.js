@@ -6,21 +6,24 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Controlla se il token è presente nel localStorage quando l'app viene caricata
     const token = localStorage.getItem('token');
-    console.log("Token trovato:", token);
-    setIsAuthenticated(!!token);
+    console.log("Token trovato all'avvio:", token);
+    setIsAuthenticated(!!token);  // Se il token è presente, imposta isAuthenticated su true
   }, []);
 
   const login = (token) => {
+    // Salva il token nel localStorage e aggiorna lo stato di autenticazione
     localStorage.setItem('token', token);
-    setIsAuthenticated(true);
-    console.log("Login eseguito, isAuthenticated:", isAuthenticated);
+    setIsAuthenticated(true);  // Aggiorna lo stato immediatamente
+    console.log("Login eseguito, token salvato:", token);
   };
 
   const logout = () => {
+    // Rimuovi il token dal localStorage e aggiorna lo stato di autenticazione
     localStorage.removeItem('token');
-    setIsAuthenticated(false);
-    console.log("Logout eseguito, isAuthenticated:", isAuthenticated);
+    setIsAuthenticated(false);  // Aggiorna lo stato immediatamente
+    console.log("Logout eseguito, token rimosso");
   };
 
   return (
