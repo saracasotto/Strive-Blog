@@ -37,12 +37,6 @@ const AuthorDetails = () => {
           <Card.Text>
             <strong>Email:</strong> {author.email}
           </Card.Text>
-          <Card.Text>
-            <strong>Birth Date:</strong> {author.birthDate}
-          </Card.Text>
-          <Link to={`/authors/${id}/avatar`}>
-            <Button variant="secondary">Modifica Avatar</Button>
-          </Link>
         </Card.Body>
       </Card>
 

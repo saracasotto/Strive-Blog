@@ -54,34 +54,57 @@ export const addCommentToPost = async (req, res) => {
   }
 };
 
-// PUT update a specific comment
+//UPDATE COMMENTO - UTENTE  IDENTIFICATO
 export const updateComment = async (req, res) => {
   try {
     const { content } = req.body;
 
-    const updatedComment = await Comment.findByIdAndUpdate(
-      req.params.commentId,
-      { content },
-      { new: true }
-    );
+    // Trova il commento per ID
+    const comment = await Comment.findById(req.params.commentId);
 
-    if (!updatedComment) return res.status(404).json({ message: 'Commento non trovato' });
-    res.json(updatedComment);
+    // Verifica se il commento esiste
+    if (!comment) {
+      return res.status(404).json({ message: 'Commento non trovato' });
+    }
+
+    // Verifica se l'autore del commento è lo stesso dell'utente autenticato
+    if (comment.author.toString() !== req.loggedAuthor._id.toString()) {
+      return res.status(403).json({ message: 'Non hai il permesso di modificare questo commento.' });
+    }
+
+    // Aggiorna il commento
+    comment.content = content;
+    await comment.save();
+
+    res.json(comment);
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
 
-// DELETE a specific comment from a blog post
+
+//CANCELLAZIONE COMMENTO - UTENTE IDENTIFICATO
 export const deleteComment = async (req, res) => {
   try {
-    const deletedComment = await Comment.findByIdAndDelete(req.params.commentId);
-    if (!deletedComment) {
+    // Trova il commento per ID
+    const comment = await Comment.findById(req.params.commentId);
+    
+    // Verifica se il commento esiste
+    if (!comment) {
       return res.status(404).json({ message: 'Commento non trovato' });
     }
 
+    // Verifica se l'autore del commento è lo stesso dell'utente autenticato
+    if (comment.author.toString() !== req.loggedAuthor._id.toString()) {
+      return res.status(403).json({ message: 'Non hai il permesso di eliminare questo commento.' });
+    }
+
+    // Elimina il commento
+    await comment.remove();
+
+    // Rimuovi il commento dall'array dei commenti del post
     await BlogPost.findByIdAndUpdate(req.params.id, {
-      $pull: { comments: req.params.commentId }, // Rimuove il commento dal post
+      $pull: { comments: req.params.commentId }, // Rimuove il commento dall'array
     });
 
     res.json({ message: 'Commento eliminato' });
@@ -89,3 +112,4 @@ export const deleteComment = async (req, res) => {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
