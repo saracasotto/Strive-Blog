@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
+import ReactMarkdown from 'react-markdown';
 import './BlogPosts.css';
 
 // Componente per la visualizzazione di un singolo post
@@ -18,9 +19,7 @@ const BlogPost = ({ post }) => (
     )}
     
     <p><strong>Read Time:</strong> {post.readTime.value} {post.readTime.unit}</p>
-    <div className="post-content">
-      {post.content}
-    </div>
+    <ReactMarkdown>{post.content}</ReactMarkdown>
     <Link to={`/blogposts/${post._id}`} className="read-more-link">Read More</Link>
   </div>
 );

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import './styles.css';
-
 
 const AuthorDetails = () => {
   const { id } = useParams(); // Ottieni l'id dell'autore dall'URL
@@ -27,7 +26,7 @@ const AuthorDetails = () => {
   }
 
   return (
-    <Container>
+    <Container className="mt-5">
       <Card className="author-detail-card">
         <div className="image-container">
           <Card.Img variant="top" src={author.avatar} />
@@ -40,13 +39,33 @@ const AuthorDetails = () => {
           <Card.Text>
             <strong>Birth Date:</strong> {author.birthDate}
           </Card.Text>
-          {/* Link alla pagina di caricamento dell'avatar */}
           <Link to={`/authors/${id}/avatar`}>
             <Button variant="secondary">Modifica Avatar</Button>
           </Link>
         </Card.Body>
       </Card>
 
+      <h3 className="mt-4">Blog Posts</h3>
+      <Row>
+        {author.blogPosts && author.blogPosts.length > 0 ? (
+          author.blogPosts.map(post => (
+            <Col lg={4} key={post._id}>
+              <Card className="mb-4">
+                <Card.Img variant="top" src={post.cover} />
+                <Card.Body>
+                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Text>{post.content.substring(0, 100)}...</Card.Text>
+                  <Link to={`/blogposts/${post._id}`}>
+                    <Button variant="primary">Leggi di più</Button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        ) : (
+          <p>Nessun post disponibile</p>
+        )}
+      </Row>
     </Container>
   );
 };

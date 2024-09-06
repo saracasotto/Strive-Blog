@@ -37,7 +37,8 @@ export const getAuthors = async (req, res) => {
 //OTTENERE AUTORE SPECIFICO
 export const getAuthorById = async (req, res) => {
   try {
-    const author = await Author.findById(req.params.id);
+    // Popola il campo blogPosts per ottenere i post dell'autore
+    const author = await Author.findById(req.params.id).populate('blogPosts');
     if (!author) {
       return res.status(404).json({ message: 'Autore non trovato' });
     }

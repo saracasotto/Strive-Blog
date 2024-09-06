@@ -1,4 +1,5 @@
 import BlogPost from '../models/BlogPosts.js';
+import Author from '../models/Authors.js';
 
 //OTTIENI TUTTI I POST
 export const getBlogPosts = async (req, res) => {
@@ -40,6 +41,13 @@ export const createBlogPost = async (req, res) => {
     const { category, title, cover, readTime, content } = req.body;
     const defaultAuthorId = '66d9c8459f9a4567c7da80c4'; // ID autore di default per test senza autenticazione
 
+    // Trova l'autore nel database
+    const author = await Author.findById(defaultAuthorId);
+    if (!author) {
+      return res.status(404).json({ message: 'Autore non trovato' });
+    }
+
+    // Crea un nuovo post con l'autore predefinito
     const newPost = new BlogPost({
       category,
       title,
@@ -49,7 +57,13 @@ export const createBlogPost = async (req, res) => {
       author: defaultAuthorId, // Associa l'autore predefinito al post
     });
 
+    // Salva il nuovo post nel database
     await newPost.save();
+
+    // Aggiungi il nuovo post all'autore
+    author.blogPosts.push(newPost._id);
+    await author.save();  // Aggiorna l'autore con il nuovo post
+
     res.status(201).json(newPost);
   } catch (error) {
     console.error('Error creating blog post:', error);

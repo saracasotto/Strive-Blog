@@ -14,12 +14,14 @@ const Login = () => {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem('token');  // Controlla se l'utente è autenticato
 
+  // Se l'utente è già autenticato, mostra il modale
   useEffect(() => {
     if (isAuthenticated) {
-      setShowModal(true);  // Mostra il modale se l'utente è già loggato
+      setShowModal(true);
     }
   }, [isAuthenticated]);
 
+  // Gestione del cambiamento dei campi di login
   const handleLoginChange = (e) => {
     setLoginData({
       ...loginData,
@@ -27,6 +29,7 @@ const Login = () => {
     });
   };
 
+  // Gestione dell'invio del form di login
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,14 +40,22 @@ const Login = () => {
         },
         body: JSON.stringify(loginData),
       });
-
+  
       const result = await response.json();
+  
+      console.log("Login result:", result);
+  
       if (response.ok) {
-        localStorage.setItem('token', result.token);  // Salva il token nel localStorage
+        // Salva il token e l'ID dell'utente nel localStorage
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('userId', result.author._id);  // Salva l'ID dell'utente
+  
+        console.log("User ID salvato:", result.author._id);
+  
         setShowSuccessAlert(true);  // Mostra l'alert di successo
         setTimeout(() => {
-          navigate('/');  // Reindirizza alla home dopo 2 secondi
-        }, 2000);  // Aspetta 2 secondi prima di reindirizzare
+          window.location.reload();  // Forza un refresh della pagina per rileggere i valori da localStorage
+        }, 1000);  // Aspetta 1 secondo prima di ricaricare
       } else {
         setErrorMessage(result.message);  // Mostra l'errore se il login fallisce
       }
@@ -52,10 +63,15 @@ const Login = () => {
       setErrorMessage('Error during login, please try again.');
     }
   };
+  
+  
 
+  // Funzione per chiudere il modale e reindirizzare dopo
   const handleModalClose = () => {
-    setShowModal(false);
-    navigate('/');  // Reindirizza alla home quando il modale si chiude
+    setShowModal(false);  // Chiudi il modale
+    setTimeout(() => {
+      navigate('/');  // Reindirizza alla home dopo la chiusura
+    }, 300);  // Piccolo timeout per assicurarsi che il modale si chiuda prima del redirect
   };
 
   return (
@@ -114,7 +130,7 @@ const Login = () => {
       )}
 
       {/* Modale per "Sei già loggato!" */}
-      <Modal show={showModal} onHide={handleModalClose}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Sei già loggato!</Modal.Title>
         </Modal.Header>
