@@ -60,11 +60,17 @@ export const addCommentToPost = async (req, res) => {
     blogPost.comments.push(newComment._id); // Aggiungi il commento al post
     await blogPost.save();
 
-    res.status(201).json(newComment); // Rispondi con il commento creato
+    // Popola il campo author con i dettagli
+    const populatedComment = await Comment.findById(newComment._id).populate('author', 'name surname');
+
+    // Rispondi con il commento popolato
+    res.status(201).json(populatedComment);
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
+
 
 
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Card, Button, Row, Col } from 'react-bootstrap';
-import './styles.css';
+import { Container, Card, Row, Col } from 'react-bootstrap';
+import ReactMarkdown from 'react-markdown';
+import "../blog-posts/BlogPosts.css"
+
 
 const AuthorDetails = () => {
   const { id } = useParams(); // Ottieni l'id dell'autore dall'URL
@@ -28,7 +30,7 @@ const AuthorDetails = () => {
 
   return (
     <Container className="mt-5">
-      <Card className="author-detail-card">
+      <Card className="author-card details-page-card">
         <div className="image-container">
           <Card.Img variant="top" src={author.avatar} />
         </div>
@@ -40,23 +42,26 @@ const AuthorDetails = () => {
         </Card.Body>
       </Card>
 
-      <h3 className="mt-4">Blog Posts</h3>
+      <h3 className="mt-2">Blog Posts</h3>
       <Row>
         {author.blogPosts && author.blogPosts.length > 0 ? (
           author.blogPosts.map(post => {
             console.log('Post:', post);
             return (
-              <Col lg={4} key={post._id}>
-                <Card className="mb-4">
-                  <Card.Img variant="top" src={post.cover || 'default-image.jpg'} />
-                  <Card.Body>
-                    <Card.Title>{post.title}</Card.Title>
-                    <Card.Text>{post.content.substring(0, 100)}...</Card.Text>
-                    <Link to={`/blogposts/${post._id}`}>
-                      <Button variant="primary">Leggi di più</Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
+              <Col md={4}>
+                <div className="card blog-post-card mb-3">
+                  <img src={post.cover} className="card-img" alt={post.title} />
+                  <div className="card-img-overlay">
+                    <h5 className="card-title text-center">{post.title}</h5>
+                    <p className="card-text category">
+                      {post.category}
+                    </p>
+                    <div className="card-text content mb-2">
+                      <ReactMarkdown>{post.content}</ReactMarkdown>
+                    </div>
+                    <Link to={`/blogposts/${post._id}`} className="btn mt-2">Read More</Link>
+                  </div>
+                </div>
               </Col>
             );
           })

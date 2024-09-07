@@ -70,6 +70,7 @@ const BlogPostDetails = () => {
     return (
         <Container className="mt-5">
             <Row className="blog-post-details">
+                <>
                 <h2>{post.title}</h2>
                 <img src={post.cover} alt={post.title} />
                 <p><strong>Category:</strong> {post.category}</p>
@@ -88,6 +89,7 @@ const BlogPostDetails = () => {
 
                 {/* PASSIAMO PROPS ID POST E DATI UTENTE LOGGATO */}
                 <Comments postId={id} user={user} />
+                </>
             </Row>
         </Container>
     );

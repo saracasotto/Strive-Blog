@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Button } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 import './BlogPosts.css';
 
 
 const BlogPost = ({ post }) => (
-  <div className="card blog-post-card">
+  <div className="card blog-post-card mb-3">
     <img src={post.cover} className="card-img" alt={post.title} />
     <div className="card-img-overlay">
       <h5 className="card-title">{post.title}</h5>
@@ -21,18 +21,16 @@ const BlogPost = ({ post }) => (
         )}
       </p>
       <p className="card-text time d-none d-lg-block">
-        Reading Time:{post.readTime.value} {post.readTime.unit}
+        Reading Time: {post.readTime.value} {post.readTime.unit}
       </p>
       <div className="card-text content mb-2">
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </div>
-      <Link to={`/blogposts/${post._id}`} className="btn  mt-2">Read More</Link>
+      <Link to={`/blogposts/${post._id}`} className="btn mt-2">Read More</Link>
     </div>
   </div>
 );
 
-
-// Custom hook per il recupero dei post
 const useFetchPosts = (currentPage, postsPerPage) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,9 +44,11 @@ const useFetchPosts = (currentPage, postsPerPage) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data); // Verifica i dati ricevuti
 
-        setPosts(data.posts);
+        setPosts((prevPosts) => {
+          const newPosts = data.posts.filter(post => !prevPosts.some(prevPost => prevPost._id === post._id));
+          return [...prevPosts, ...newPosts];
+        });
       } catch (error) {
         setError(error.message);
       } finally {
@@ -62,29 +62,59 @@ const useFetchPosts = (currentPage, postsPerPage) => {
   return { posts, loading, error };
 };
 
-// Componente principale per la visualizzazione dei post del blog
 const BlogPosts = () => {
-  const postsPerPage = 5; // Numero fisso di post per pagina
-  const [currentPage] = useState(1); // Pagina corrente
+  const postsPerPage = 6; 
+  const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
+  const [searchQuery, setSearchQuery] = useState(''); // Stato per la ricerca
 
   const { posts, loading, error } = useFetchPosts(currentPage, postsPerPage);
 
-  if (loading) return <p>Loading...</p>;
+  // Filtro solo per il titolo dei post
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const loadMorePosts = () => {
+    setCurrentPage((prevPage) => prevPage + 1); // Incrementa la pagina
+  };
+
   if (error) return <p>Error: {error}</p>;
 
   return (
     <Container className='mt-5'>
+      {/* Barra di ricerca */}
+      <Row className="justify-content-center mb-4">
+        <Col md={6}>
+          <input
+            type="text"
+            placeholder="Search posts by title"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="form-control text-center"
+          />
+        </Col>
+      </Row>
+
+      {/* Lista dei post filtrati */}
       <Row className="blog-post-row text-center mt-3">
-        {posts.length > 0 ? (
-          posts.map(post => (
+        {filteredPosts.length > 0 ? (
+          filteredPosts.map(post => (
             <Col md={6} lg={4} key={post._id} className="blog-post-container">
               <BlogPost key={post._id} post={post} />
             </Col>
           ))
         ) : (
-          <p>No posts available.</p>
+          <p>No posts available with that title.</p>
         )}
       </Row>
+
+      {/* Pulsante "Load More" */}
+      {!loading && (
+        <div className="d-flex justify-content-center my-4">
+          <Button onClick={loadMorePosts}>Load More</Button>
+        </div>
+      )}
+      {loading && <p>Loading...</p>}
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "./Comments.css"
 
 const Comments = ({ postId, user }) => {
     const [comments, setComments] = useState([]);
@@ -11,10 +12,10 @@ const Comments = ({ postId, user }) => {
         const fetchComments = async () => {
             try {
                 const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments`);
-                if (!response.ok) {throw new Error('Error fetching comments');}
+                if (!response.ok) { throw new Error('Error fetching comments'); }
                 const data = await response.json();
                 setComments(data);
-            } catch (error) {setError(error.message);}
+            } catch (error) { setError(error.message); }
         };
 
         fetchComments();
@@ -24,30 +25,30 @@ const Comments = ({ postId, user }) => {
     const handleAddComment = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
-          console.error("JWT Token not found");
-          return;
+            console.error("JWT Token not found");
+            return;
         }
-      
+
         try {
-          const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({ content: newComment }),
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to add comment');
-          }
-      
-          const addedComment = await response.json();
-          setComments([...comments, addedComment]);
-          setNewComment('');
+            const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ content: newComment }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add comment');
+            }
+
+            const addedComment = await response.json();
+            setComments([...comments, addedComment]);
+            setNewComment('');
         } catch (error) {
-          console.error("Error:", error);
-          setError(error.message);
+            console.error("Error:", error);
+            setError(error.message);
         }
     };
 
@@ -99,7 +100,7 @@ const Comments = ({ postId, user }) => {
 
             const updatedComment = await response.json();
             setComments(comments.map(comment => comment._id === commentId ? updatedComment : comment)); // Aggiorna il commento nell'array
-            setEditingCommentId(null); // Disabilita la modalità modifica
+            setEditingCommentId(null);
             setEditedComment('');
         } catch (error) {
             console.error("Error:", error);
@@ -108,56 +109,65 @@ const Comments = ({ postId, user }) => {
     };
 
     return (
-        <div className="comments-section">
-            <h3>Comments</h3>
+        <div className="comments-section mt-5">
+            <h5>Comments Section</h5>
             {error && <p>Error: {error}</p>}
-            {comments.length > 0 ? (
-                comments.map(comment => (
-                    <div key={comment._id} className="comment">
-                        {editingCommentId === comment._id ? (
-                            // Modalità modifica commento
-                            <div>
-                                <textarea 
-                                    value={editedComment}
-                                    onChange={(e) => setEditedComment(e.target.value)}
-                                    rows="3"
-                                />
-                                <button onClick={() => handleUpdateComment(comment._id)}>Save</button>
-                                <button onClick={() => setEditingCommentId(null)}>Cancel</button>
-                            </div>
-                        ) : (
-                            // Modalità visualizzazione normale
-                            <div>
-                                <p><strong>{comment.author.name} {comment.author.surname}</strong>: {comment.content}</p> {/* Mostra il nome dell'autore */}
-                                {user && (
-                                    <>
-                                        <button onClick={() => handleEditComment(comment._id, comment.content)}>Edit comment</button>
-                                        <button onClick={() => handleDeleteComment(comment._id)}>Delete comment</button>
-                                    </>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                ))
-            ) : (
+            {comments.length > 0 ? (comments.map(comment => (
+                <div key={comment._id} className="comment-container"> {/* Aggiungo una classe per il bordo */}
+                    {editingCommentId === comment._id ? (
+                        <div className="edit-comment">
+                            <textarea
+                                value={editedComment}
+                                onChange={(e) => setEditedComment(e.target.value)}
+                                rows="3"
+                            />
+                            <button
+                                onClick={() => handleUpdateComment(comment._id)}
+                                className='btn'>Save</button>
+                            <button
+                                onClick={() => setEditingCommentId(null)}
+                                className='btn'>Cancel</button>
+                        </div>
+                    ) : (
+                        <div className="single-comment">
+                            <p className="author-name"><strong>{comment.author.name} {comment.author.surname}</strong></p>
+                            <p className="comment-content">{comment.content}</p>
+                            {user && user._id === comment.author._id && ( // Verifica se l'utente è l'autore
+                                <div className="comment-actions">
+                                    <button
+                                        onClick={() => handleEditComment(comment._id, comment.content)}
+                                        className='btn'>Edit</button>
+                                    <button
+                                        onClick={() => handleDeleteComment(comment._id)}
+                                        className='btn'>Delete</button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            ))) : (
                 <p>No comments yet.</p>
             )}
 
-            {/* Aggiungi nuovo commento solo se l'utente è loggato */}
             {user ? (
                 <div className="add-comment">
-                    <textarea 
+                    <textarea
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Write a comment"
                         rows="3"
                     />
-                    <button onClick={handleAddComment}>Add comment</button>
+                    <button
+                        onClick={handleAddComment}
+                        className="btn">
+                        Add comment
+                    </button>
                 </div>
             ) : (
                 <p>You can only comment if you are logged in</p>
             )}
         </div>
+
     );
 };
 

@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from '../../context/AuthContext';  // Importa il contesto di autenticazione
+import { AuthContext } from '../../context/AuthContext'; 
 import logo from "../../assets/logo.png";
-import "./styles.css";
+import "./BlogNavbar.css";
 
 const NavBar = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext); // Usa il contesto per autenticazione e logout
+  const { isAuthenticated, logout } = useContext(AuthContext); 
   const navigate = useNavigate();
-  const [expanded, setExpanded] = useState(false); // Stato per gestire il collapse
+  const [expanded, setExpanded] = useState(false); 
 
   const handleLogout = () => {
-    logout(); // Usa la funzione logout dal contesto
-    navigate('/login'); // Reindirizza alla pagina di login
-    setExpanded(false); // Chiude la navbar
+    logout(); // FUNZIONE LOGOUT PRESA DA CONTESTO
+    navigate('/login'); //REINDIRIZZO A LOGIN
+    setExpanded(false); //CHIUSURA NAVBAR
   };
 
   const handleLinkClick = () => {
-    setExpanded(false); // Chiude la navbar al click di un link
+    setExpanded(false); 
   };
 
   return (
@@ -29,7 +29,7 @@ const NavBar = () => {
 
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(expanded ? false : true)} // Toggles navbar
+          onClick={() => setExpanded(expanded ? false : true)} 
         />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -57,7 +57,7 @@ const NavBar = () => {
             {isAuthenticated && (
               <>
                 <Nav.Link as={Link} to="/profile" onClick={handleLinkClick}>
-                  Profilo
+                  Profile
                 </Nav.Link>
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               </>
@@ -68,7 +68,7 @@ const NavBar = () => {
           <Button
             as={Link}
             to="/new"
-            className="blog-navbar-add-button bg-dark"
+            className="blog-navbar-add-button"
             size="sm"
             onClick={handleLinkClick}
           >
@@ -82,7 +82,7 @@ const NavBar = () => {
             >
               <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
             </svg>
-            Nuovo Articolo
+            New Post
           </Button>
         </Navbar.Collapse>
       </Container>
