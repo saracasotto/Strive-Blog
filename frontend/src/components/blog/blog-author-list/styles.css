@@ -2,7 +2,7 @@
 .author-card {
   border: 1px solid #e1e1e1;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(47, 255, 137);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 3em auto;
   max-width: 85%;
@@ -44,9 +44,9 @@
   margin-bottom: 0.5rem;
 }
 
-.card-text{
+.author-card .card-text{
   font-size: 0.8em;
-  color: #666;
+  color: black  !important;
 }
 
 .card-body {

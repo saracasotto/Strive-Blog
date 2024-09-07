@@ -4,23 +4,33 @@ import { Row, Col, Container } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 import './BlogPosts.css';
 
-// Componente per la visualizzazione di un singolo post
+
 const BlogPost = ({ post }) => (
-  <div className="blog-post">
-    <h2>{post.title}</h2>
-    <img src={post.cover} alt={post.title} />
-    <p><strong>Category:</strong> {post.category}</p>
-    {post.author ? (
-      <p><strong>Author:</strong> {post.author.name} {post.author.surname}</p>
-    ) : (
-      <p><strong>Author:</strong> Unknown</p>
-    )}
-    
-    <p><strong>Read Time:</strong> {post.readTime.value} {post.readTime.unit}</p>
-    <ReactMarkdown>{post.content}</ReactMarkdown>
-    <Link to={`/blogposts/${post._id}`} className="read-more-link">Read More</Link>
+  <div className="card blog-post-card">
+    <img src={post.cover} className="card-img" alt={post.title} />
+    <div className="card-img-overlay">
+      <h5 className="card-title">{post.title}</h5>
+      <p className="card-text category">
+        {post.category}
+      </p>
+      <p className="card-text author">
+        {post.author ? (
+          <>By <strong>{post.author.name} {post.author.surname}</strong></>
+        ) : (
+          <><strong>Author:</strong> Unknown</>
+        )}
+      </p>
+      <p className="card-text time d-none d-lg-block">
+        Reading Time:{post.readTime.value} {post.readTime.unit}
+      </p>
+      <div className="card-text content mb-2">
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+      </div>
+      <Link to={`/blogposts/${post._id}`} className="btn  mt-2">Read More</Link>
+    </div>
   </div>
 );
+
 
 // Custom hook per il recupero dei post
 const useFetchPosts = (currentPage, postsPerPage) => {
@@ -67,7 +77,7 @@ const BlogPosts = () => {
       <Row className="blog-post-row text-center mt-3">
         {posts.length > 0 ? (
           posts.map(post => (
-            <Col lg={4} key={post._id} className="blog-post-container">
+            <Col md={6} lg={4} key={post._id} className="blog-post-container">
               <BlogPost key={post._id} post={post} />
             </Col>
           ))

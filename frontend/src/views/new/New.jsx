@@ -74,7 +74,7 @@ const NewBlogPost = () => {
           >
             <option>Science</option>
             <option>Technology</option>
-            <option>innovation</option>
+            <option>Innovation</option>
             <option>Guides and Tutorials</option>
             <option>News</option>
           </Form.Control>
