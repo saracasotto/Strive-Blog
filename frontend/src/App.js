@@ -11,7 +11,6 @@ import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import UploadAvatar from "./components/blog/blog-avatar-uploads/UploadAvatar";
 import UploadCover from "./components/blog/blog-avatar-uploads/UploadCover";
-import CommentDetails from "./components/blog/blog-comments/CommentDetails";
 import Register from "./components/blog/register-login/Register";
 import Login from "./components/blog/register-login/Login";
 import ProtectedRoute from "./components/blog/register-login/ProtectedRoute";
@@ -39,7 +38,6 @@ function App() {
           <Route path="/authors/:id" element={<ProtectedRoute element={<AuthorDetails />} />} />
           <Route path="/authors/:id/avatar" element={<ProtectedRoute element={<UploadAvatar />} />} />
           <Route path="/blogposts/:id/cover" element={<ProtectedRoute element={<UploadCover />} />} />
-          <Route path="/blogposts/:id/comments/:commentId" element={<ProtectedRoute element={<CommentDetails />} />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
         </Container>

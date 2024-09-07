@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import Author from "../models/Authors.js"; 
 
 // Utilizza la chiave segreta per firmare i token
-const JWT_SECRET = process.env.JWT_SECRET || "default_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET 
 
 export default async (req, res, next) => {
   // Verifica se l'header Authorization è presente e se è di tipo Bearer
@@ -24,6 +24,7 @@ export default async (req, res, next) => {
   try {
     // Verifica il token e recupera il payload
     const payload = jwt.verify(token, JWT_SECRET);
+    console.log("Payload del token: ", payload); //CONTROLLO
 
     // Recupera i dati dell'autore dal database escludendo il campo password
     const author = await Author.findById(payload.authorId).select("-password");

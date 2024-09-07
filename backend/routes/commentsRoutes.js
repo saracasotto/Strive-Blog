@@ -1,4 +1,4 @@
-
+import authorization from '../middlewares/authorization.js';
 import express from 'express';
 import {
   getCommentsByPostId,
@@ -13,8 +13,8 @@ const router = express.Router({ mergeParams: true }); // Per passare params al r
 // Definizione delle rotte
 router.get('/', getCommentsByPostId);
 router.get('/:commentId', getCommentById);
-router.post('/', addCommentToPost);
-router.put('/:commentId', updateComment);
-router.delete('/:commentId', deleteComment);
+router.post('/', authorization, addCommentToPost);
+router.put('/:commentId', authorization, updateComment);
+router.delete('/:commentId', authorization, deleteComment);
 
 export default router; 

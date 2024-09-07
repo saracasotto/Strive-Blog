@@ -163,9 +163,9 @@ export const registerAuthor = async (req, res) => {
 
     // Genera un token JWT
     const token = jwt.sign(
-      { authorId: savedAuthor._id },
+      { authorId: savedAuthor._id }, 
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } 
     );
 
     res.status(201).json({ token, author: savedAuthor });
@@ -200,7 +200,7 @@ export const loginAuthor = async (req, res) => {
     const token = jwt.sign(
       { authorId: author._id },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } 
     );
 
     res.json({ token, author });

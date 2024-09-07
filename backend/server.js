@@ -31,7 +31,7 @@ mongoose
 // Usa i router per gestire le rotte
 app.use('/authors', authorsRouter);
 app.use('/blogposts', blogPostsRouter);
-app.use('/blogPosts/:id/comments', commentsRouter);
+app.use('/blogposts/:id/comments', commentsRouter);
 
 
 

@@ -4,15 +4,21 @@ import Comment from '../models/Comments.js';
 // GET all comments for a specific blog post
 export const getCommentsByPostId = async (req, res) => {
   try {
-    const blogPost = await BlogPost.findById(req.params.id).populate('comments');
+    const blogPost = await BlogPost.findById(req.params.id).populate({
+      path: 'comments',
+      populate: { path: 'author', select: 'name surname' } // Popola i campi name e surname dell'autore
+    });
+
     if (!blogPost) {
       return res.status(404).json({ message: 'Post non trovato' });
     }
+
     res.json(blogPost.comments);
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
 
 // GET a specific comment by commentId
 export const getCommentById = async (req, res) => {
@@ -27,32 +33,40 @@ export const getCommentById = async (req, res) => {
   }
 };
 
-// POST add a new comment to a specific blog post
+//AGGIUNGERE COMMENTO - UTENTE IDENTIFICATO
 export const addCommentToPost = async (req, res) => {
   try {
+    // Recupera il post tramite l'ID
     const blogPost = await BlogPost.findById(req.params.id);
     if (!blogPost) {
       return res.status(404).json({ message: 'Post non trovato' });
     }
 
     const { content } = req.body;
-    const author = req.loggedUser; // L'utente autenticato diventa l'autore del commento
+    const author = req.loggedAuthor; // L'autore autenticato recuperato dal middleware
 
+    if (!author) {
+      return res.status(401).json({ message: 'Utente non autenticato' });
+    }
+
+    // Crea il nuovo commento con il content e l'autore
     const newComment = new Comment({
       content,
-      author: author._id, // Associa l'autore al commento
+      author: author._id, // Associa l'autore autenticato al commento
     });
 
+    // Salva il commento e aggiornalo nel post
     await newComment.save();
-
     blogPost.comments.push(newComment._id); // Aggiungi il commento al post
     await blogPost.save();
 
-    res.status(201).json(newComment);
+    res.status(201).json(newComment); // Rispondi con il commento creato
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
+
 
 //UPDATE COMMENTO - UTENTE  IDENTIFICATO
 export const updateComment = async (req, res) => {
@@ -72,15 +86,16 @@ export const updateComment = async (req, res) => {
       return res.status(403).json({ message: 'Non hai il permesso di modificare questo commento.' });
     }
 
-    // Aggiorna il commento
+    // Aggiorna il contenuto del commento
     comment.content = content;
     await comment.save();
 
-    res.json(comment);
+    res.json(comment); // Restituisci il commento aggiornato
   } catch (error) {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
 
 
 //CANCELLAZIONE COMMENTO - UTENTE IDENTIFICATO
@@ -99,12 +114,12 @@ export const deleteComment = async (req, res) => {
       return res.status(403).json({ message: 'Non hai il permesso di eliminare questo commento.' });
     }
 
-    // Elimina il commento
-    await comment.remove();
+    // Usa deleteOne per eliminare il commento
+    await Comment.deleteOne({ _id: comment._id });
 
     // Rimuovi il commento dall'array dei commenti del post
     await BlogPost.findByIdAndUpdate(req.params.id, {
-      $pull: { comments: req.params.commentId }, // Rimuove il commento dall'array
+      $pull: { comments: req.params.commentId }, // Rimuove il commento dall'array dei commenti del post
     });
 
     res.json({ message: 'Commento eliminato' });
@@ -112,4 +127,6 @@ export const deleteComment = async (req, res) => {
     res.status(500).json({ message: 'Errore del server: ' + error.message });
   }
 };
+
+
 
