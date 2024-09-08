@@ -52,7 +52,7 @@ Content-Type: application/json
 
 ### CANCELLARE UN POST
 
-DELETE http://localhost:5000/blogposts/
+DELETE http://localhost:5000/blogposts/66dc4c772b01398cbcaa97f7
 
 
 ### CANCELLARE TUTTI I POST

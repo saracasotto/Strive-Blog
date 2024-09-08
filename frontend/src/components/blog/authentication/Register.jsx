@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './authentication.css'
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -48,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <Container fluid="sm" className='mt-5'>
+    <Container className='mt-5'>
       <h2>Register</h2>
       
       {showSuccessAlert && (

@@ -11,13 +11,13 @@ import BlogPostDetails from "./components/blog/blog-post-details/BlogPostDetails
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import UploadAvatar from "./components/blog/blog-avatar-uploads/UploadAvatar";
 import UploadCover from "./components/blog/blog-avatar-uploads/UploadCover";
-import Register from "./components/blog/register-login/Register";
-import Login from "./components/blog/register-login/Login";
-import ProtectedRoute from "./components/blog/register-login/ProtectedRoute";
+import Register from "./components/blog/authentication/Register";
+import Login from "./components/blog/authentication/Login";
+import ProtectedRoute from "./components/blog/authentication/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { Container } from "react-bootstrap";
-import Logout from "./components/blog/register-login/Logout";
-import Profile from "./components/blog/register-login/Profile";
+import Logout from "./components/blog/authentication/Logout";
+import Profile from "./components/blog/authentication/Profile";
 
 function App() {
   return (
@@ -25,26 +25,27 @@ function App() {
       <Router>
         <NavBar />
         <Container fluid="sm">
-        <Routes>
-          <Route path="/" element={<ProtectedRoute element={<Home />} />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<ProtectedRoute element={<Logout />} />} />
-          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
-          <Route path="/new" element={<ProtectedRoute element={<NewBlogPost />} />} />
-          <Route path="/blogposts" element={<ProtectedRoute element={<BlogPosts />} />} />
-          <Route path="/blogposts/:id" element={<ProtectedRoute element={<BlogPostDetails />} />} />
-          <Route path="/authors" element={<ProtectedRoute element={<BlogAuthorsList />} />} />
-          <Route path="/authors/:id" element={<ProtectedRoute element={<AuthorDetails />} />} />
-          <Route path="/authors/:id/avatar" element={<ProtectedRoute element={<UploadAvatar />} />} />
-          <Route path="/blogposts/:id/cover" element={<ProtectedRoute element={<UploadCover />} />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<ProtectedRoute element={<Logout />} />} />
+            <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+            <Route path="/new" element={<ProtectedRoute element={<NewBlogPost />} />} />
+            <Route path="/blogposts" element={<ProtectedRoute element={<BlogPosts />} />} />
+            <Route path="/blogposts/:id" element={<ProtectedRoute element={<BlogPostDetails />} />} />
+            <Route path="/authors" element={<ProtectedRoute element={<BlogAuthorsList />} />} />
+            <Route path="/authors/:id" element={<ProtectedRoute element={<AuthorDetails />} />} />
+            <Route path="/authors/:id/avatar" element={<ProtectedRoute element={<UploadAvatar />} />} />
+            <Route path="/blogposts/:id/cover" element={<ProtectedRoute element={<UploadCover />} />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
         </Container>
         <Footer />
       </Router>
     </AuthProvider>
   );
 }
+
 
 export default App;

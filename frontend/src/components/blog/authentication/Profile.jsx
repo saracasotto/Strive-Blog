@@ -90,12 +90,12 @@ const Profile = () => {
       setErrorMessage('Seleziona un file avatar prima di caricare.');
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('avatar', avatarFile); 
-
+  
     setAvatarLoading(true); 
-
+  
     try {
       const response = await fetch('http://localhost:5000/authors/auth/me/avatar', {
         method: 'PATCH',
@@ -104,11 +104,15 @@ const Profile = () => {
         },
         body: formData, 
       });
-
+  
       if (response.ok) {
         setSuccessMessage('Avatar aggiornato con successo!');
         const result = await response.json();
         setUserData({ ...userData, avatar: result.avatarUrl });
+        // Reindirizza alla home dopo 2 secondi
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       } else {
         const result = await response.json();
         setErrorMessage(`Errore durante l'aggiornamento dell'avatar: ${result.message}`);
@@ -119,6 +123,7 @@ const Profile = () => {
       setAvatarLoading(false); 
     }
   };
+  
 
   return (
     <Container className="mt-5">
@@ -145,7 +150,7 @@ const Profile = () => {
             <Form.Control type="file" onChange={handleAvatarChange} />
           </Form.Group>
           <Button variant="primary" onClick={handleAvatarUpload} className="mt-3">
-            {avatarLoading ? <Spinner animation="border" size="sm" /> : 'Carica Avatar'}
+            {avatarLoading ? <Spinner animation="border" size="sm" /> : 'Upload Avatar'}
           </Button>
 
           <hr />

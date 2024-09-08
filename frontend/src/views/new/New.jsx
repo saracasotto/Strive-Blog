@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext"; 
 import { useNavigate } from 'react-router-dom';
+import './New.css'
 
 const NewBlogPost = () => {
   const { isAuthenticated } = useContext(AuthContext);

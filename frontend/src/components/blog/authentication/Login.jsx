@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
+import './authentication.css'
 
 const Login = () => {
   const { login } = useContext(AuthContext); //USO FUNZIONE LOGIN DA CONTESTO
@@ -51,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <Container fluid="sm" className='mt-3'>
+    <Container fluid="sm">
       <h1>Login if you want to see the content!</h1>
       <h2 className='mt-5'>Login</h2>
       
@@ -80,7 +81,7 @@ const Login = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group controlId="formBasicPassword" className='mt-3'>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

@@ -31,10 +31,18 @@ const BlogPost = ({ post }) => (
   </div>
 );
 
-const useFetchPosts = (currentPage, postsPerPage) => {
+const useFetchAndShufflePosts = (currentPage, postsPerPage) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Scambio degli elementi
+    }
+    return array;
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -44,9 +52,10 @@ const useFetchPosts = (currentPage, postsPerPage) => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        const shuffledPosts = shuffleArray(data.posts); // Mescolare i post subito dopo il caricamento
 
         setPosts((prevPosts) => {
-          const newPosts = data.posts.filter(post => !prevPosts.some(prevPost => prevPost._id === post._id));
+          const newPosts = shuffledPosts.filter(post => !prevPosts.some(prevPost => prevPost._id === post._id));
           return [...prevPosts, ...newPosts];
         });
       } catch (error) {
@@ -63,19 +72,17 @@ const useFetchPosts = (currentPage, postsPerPage) => {
 };
 
 const BlogPosts = () => {
-  const postsPerPage = 6; 
-  const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
-  const [searchQuery, setSearchQuery] = useState(''); 
+  const postsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { posts, loading, error } = useFetchAndShufflePosts(currentPage, postsPerPage);
 
-  const { posts, loading, error } = useFetchPosts(currentPage, postsPerPage);
-
-  
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const loadMorePosts = () => {
-    setCurrentPage((prevPage) => prevPage + 1); 
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   if (error) return <p>Error: {error}</p>;
@@ -93,7 +100,6 @@ const BlogPosts = () => {
           />
         </Col>
       </Row>
-
 
       <Row className="blog-post-row text-center mt-3">
         {filteredPosts.length > 0 ? (
@@ -118,3 +124,4 @@ const BlogPosts = () => {
 };
 
 export default BlogPosts;
+
