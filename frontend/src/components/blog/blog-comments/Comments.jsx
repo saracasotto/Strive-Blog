@@ -113,7 +113,7 @@ const Comments = ({ postId, user }) => {
             <h5>Comments Section</h5>
             {error && <p>Error: {error}</p>}
             {comments.length > 0 ? (comments.map(comment => (
-                <div key={comment._id} className="comment-container"> {/* Aggiungo una classe per il bordo */}
+                <div key={comment._id} className="comment-container">
                     {editingCommentId === comment._id ? (
                         <div className="edit-comment">
                             <textarea
@@ -132,7 +132,7 @@ const Comments = ({ postId, user }) => {
                         <div className="single-comment">
                             <p className="author-name"><strong>{comment.author.name} {comment.author.surname}</strong></p>
                             <p className="comment-content">{comment.content}</p>
-                            {user && user._id === comment.author._id && ( // Verifica se l'utente è l'autore
+                            {user && user._id === comment.author._id && ( //VERIFICO SE L'UTENTE E' L'AUTORE DEL COMMENTO
                                 <div className="comment-actions">
                                     <button
                                         onClick={() => handleEditComment(comment._id, comment.content)}

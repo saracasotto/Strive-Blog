@@ -5,10 +5,9 @@ import { AuthContext } from '../../../context/AuthContext';
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated } = useContext(AuthContext);
 
- 
   console.log("isAuthenticated:", isAuthenticated);
 
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  return isAuthenticated ? element : <Navigate to="/login" />;  //REINDIRIZZO A LOGIN SE NON E' AUTENTICATO
 };
 
 export default ProtectedRoute;

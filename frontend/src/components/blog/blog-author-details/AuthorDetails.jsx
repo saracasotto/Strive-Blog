@@ -6,7 +6,7 @@ import "../blog-posts/BlogPosts.css"
 
 
 const AuthorDetails = () => {
-  const { id } = useParams(); // Ottieni l'id dell'autore dall'URL
+  const { id } = useParams(); //PRENDO ID DA URL
   const [author, setAuthor] = useState(null);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AuthorDetails = () => {
             );
           })
         ) : (
-          <p>Nessun post disponibile</p>
+          <p>No posts available.</p>
         )}
       </Row>
     </Container>

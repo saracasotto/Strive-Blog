@@ -10,22 +10,22 @@ const Profile = () => {
     birthDate: '',
     avatar: ''
   });
-  const [avatarFile, setAvatarFile] = useState(null); // Stato per l'avatar
+  const [avatarFile, setAvatarFile] = useState(null); 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Stato per l'indicatore di caricamento
-  const [avatarLoading, setAvatarLoading] = useState(false); // Stato per il caricamento dell'avatar
+  const [loading, setLoading] = useState(false); 
+  const [avatarLoading, setAvatarLoading] = useState(false); 
   const navigate = useNavigate();
 
-  // Funzione per ottenere i dati dell'utente autenticato
+  
   useEffect(() => {
     const fetchUserData = async () => {
-      setLoading(true); // Inizia il caricamento
+      setLoading(true); 
       try {
         const response = await fetch('http://localhost:5000/authors/auth/me', {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Invia il token JWT
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
         const result = await response.json();
@@ -37,14 +37,14 @@ const Profile = () => {
       } catch (error) {
         setErrorMessage('Errore durante il caricamento dei dati utente');
       } finally {
-        setLoading(false); // Termina il caricamento
+        setLoading(false); 
       }
     };
 
     fetchUserData();
   }, []);
 
-  // Funzione per gestire il cambiamento dei dati utente
+  
   const handleInputChange = (e) => {
     setUserData({
       ...userData,
@@ -52,7 +52,7 @@ const Profile = () => {
     });
   };
 
-  // Funzione per inviare i dati aggiornati dell'utente
+  
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -69,7 +69,7 @@ const Profile = () => {
         setSuccessMessage('Profilo aggiornato con successo!');
         // Reindirizza alla home dopo 2 secondi
         setTimeout(() => {
-          navigate('/'); // Reindirizza alla home
+          navigate('/');
         }, 2000);
       } else {
         setErrorMessage('Errore durante l\'aggiornamento del profilo');
@@ -79,12 +79,12 @@ const Profile = () => {
     }
   };
 
-  // Funzione per gestire il caricamento dell'avatar
+ 
   const handleAvatarChange = (e) => {
     setAvatarFile(e.target.files[0]);
   };
 
-  // Funzione per aggiornare l'avatar
+  
   const handleAvatarUpload = async () => {
     if (!avatarFile) {
       setErrorMessage('Seleziona un file avatar prima di caricare.');
@@ -92,9 +92,9 @@ const Profile = () => {
     }
 
     const formData = new FormData();
-    formData.append('avatar', avatarFile); // Aggiungi il file avatar al formData
+    formData.append('avatar', avatarFile); 
 
-    setAvatarLoading(true); // Mostra il caricamento dell'avatar
+    setAvatarLoading(true); 
 
     try {
       const response = await fetch('http://localhost:5000/authors/auth/me/avatar', {
@@ -102,13 +102,13 @@ const Profile = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: formData, // Invia il form con il file
+        body: formData, 
       });
 
       if (response.ok) {
         setSuccessMessage('Avatar aggiornato con successo!');
         const result = await response.json();
-        setUserData({ ...userData, avatar: result.avatarUrl }); // Aggiorna l'avatar nello stato
+        setUserData({ ...userData, avatar: result.avatarUrl });
       } else {
         const result = await response.json();
         setErrorMessage(`Errore durante l'aggiornamento dell'avatar: ${result.message}`);
@@ -116,13 +116,13 @@ const Profile = () => {
     } catch (error) {
       setErrorMessage('Errore durante l\'aggiornamento dell\'avatar');
     } finally {
-      setAvatarLoading(false); // Nascondi il caricamento
+      setAvatarLoading(false); 
     }
   };
 
   return (
     <Container className="mt-5">
-      <h2>Profilo Utente</h2>
+      <h2>User profile</h2>
 
       {successMessage && <Alert variant="success">{successMessage}</Alert>}
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
@@ -141,7 +141,7 @@ const Profile = () => {
           />
           )}
           <Form.Group controlId="formAvatar">
-            <Form.Label>Seleziona un nuovo avatar</Form.Label>
+            <Form.Label>Select a new avatar</Form.Label>
             <Form.Control type="file" onChange={handleAvatarChange} />
           </Form.Group>
           <Button variant="primary" onClick={handleAvatarUpload} className="mt-3">
@@ -152,7 +152,7 @@ const Profile = () => {
 
           <Form onSubmit={handleProfileUpdate}>
             <Form.Group controlId="formName">
-              <Form.Label>Nome</Form.Label>
+              <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -163,7 +163,7 @@ const Profile = () => {
             </Form.Group>
 
             <Form.Group controlId="formSurname">
-              <Form.Label>Cognome</Form.Label>
+              <Form.Label>Surname</Form.Label>
               <Form.Control
                 type="text"
                 name="surname"
@@ -185,7 +185,7 @@ const Profile = () => {
             </Form.Group>
 
             <Form.Group controlId="formBirthDate">
-              <Form.Label>Data di Nascita</Form.Label>
+              <Form.Label>Date of birth</Form.Label>
               <Form.Control
                 type="date"
                 name="birthDate"
@@ -195,7 +195,7 @@ const Profile = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit" className="mt-3">
-              Aggiorna Dati
+              Update Profile
             </Button>
           </Form>
 

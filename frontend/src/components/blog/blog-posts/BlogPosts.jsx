@@ -65,24 +65,23 @@ const useFetchPosts = (currentPage, postsPerPage) => {
 const BlogPosts = () => {
   const postsPerPage = 6; 
   const [currentPage, setCurrentPage] = useState(1); // Pagina corrente
-  const [searchQuery, setSearchQuery] = useState(''); // Stato per la ricerca
+  const [searchQuery, setSearchQuery] = useState(''); 
 
   const { posts, loading, error } = useFetchPosts(currentPage, postsPerPage);
 
-  // Filtro solo per il titolo dei post
+  
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const loadMorePosts = () => {
-    setCurrentPage((prevPage) => prevPage + 1); // Incrementa la pagina
+    setCurrentPage((prevPage) => prevPage + 1); 
   };
 
   if (error) return <p>Error: {error}</p>;
 
   return (
     <Container className='mt-5'>
-      {/* Barra di ricerca */}
       <Row className="justify-content-center mb-4">
         <Col md={6}>
           <input
@@ -95,7 +94,7 @@ const BlogPosts = () => {
         </Col>
       </Row>
 
-      {/* Lista dei post filtrati */}
+
       <Row className="blog-post-row text-center mt-3">
         {filteredPosts.length > 0 ? (
           filteredPosts.map(post => (
@@ -108,7 +107,6 @@ const BlogPosts = () => {
         )}
       </Row>
 
-      {/* Pulsante "Load More" */}
       {!loading && (
         <div className="d-flex justify-content-center my-4">
           <Button onClick={loadMorePosts}>Load More</Button>

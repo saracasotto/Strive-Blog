@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './styles.css'
+import './authors-list.css'
 
 const BlogAuthorsList = () => {
   const [authors, setAuthors] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(''); // Stato per la query di ricerca
+  const [searchQuery, setSearchQuery] = useState(''); 
   const limit = 10;
 
   useEffect(() => {
@@ -16,14 +16,14 @@ const BlogAuthorsList = () => {
         const response = await fetch(`http://localhost:5000/authors?_page=${page}&_limit=${limit}`);
         const data = await response.json();
 
-        // Rimuove i duplicati
+        //RIMUOVO DUPLICATI
         setAuthors((prevAuthors) => {
           const existingIds = new Set(prevAuthors.map(author => author._id));
           const newAuthors = data.filter(author => !existingIds.has(author._id));
           return [...prevAuthors, ...newAuthors];
         });
 
-        // Controlla se ci sono più autori da caricare
+        
         if (data.length < limit) {
           setHasMore(false);
         }
@@ -33,13 +33,13 @@ const BlogAuthorsList = () => {
     };
 
     fetchAuthors();
-  }, [page]); // Ricarica quando cambia la pagina
+  }, [page]); 
 
   const loadMoreAuthors = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  // Filtra gli autori in base alla query di ricerca
+  
   const filteredAuthors = authors.filter(author =>
     `${author.name} ${author.surname}`.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -87,7 +87,7 @@ const BlogAuthorsList = () => {
 
       {hasMore && (
         <div className="d-flex justify-content-center my-4">
-          <Button onClick={loadMoreAuthors}>Carica Altro</Button>
+          <Button onClick={loadMoreAuthors}>Load More</Button>
         </div>
       )}
     </Container>

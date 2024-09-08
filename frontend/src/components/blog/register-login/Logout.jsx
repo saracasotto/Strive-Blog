@@ -27,7 +27,7 @@ const Logout = () => {
           <Modal.Title>Logout</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Sei stato disconnesso con successo.
+          You have successfylly logged out.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleLogout}>

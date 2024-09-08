@@ -11,7 +11,7 @@ const BlogPostSchema = new Schema({
   },
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author', required: true },
   content: { type: String, required: true },
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] // Referencing Comments
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] //REFERENCING AI COMMENTI
 
 });
 

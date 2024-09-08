@@ -53,7 +53,7 @@ const Register = () => {
       
       {showSuccessAlert && (
         <Alert variant="success">
-          Registrazione avvenuta con successo! Verrai reindirizzato al login.
+          Registration successful! You will be redirected to the login.
         </Alert>
       )}
 
