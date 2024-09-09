@@ -11,7 +11,7 @@ const Comments = ({ postId, user }) => {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments`);
+                const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments`);
                 if (!response.ok) { throw new Error('Error fetching comments'); }
                 const data = await response.json();
                 setComments(data);
@@ -30,7 +30,7 @@ const Comments = ({ postId, user }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments`, {
+            const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const Comments = ({ postId, user }) => {
     // ELIMINAZIONE COMMENTO
     const handleDeleteComment = async (commentId) => {
         try {
-            const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments/${commentId}`, {
+            const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments/${commentId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`, // JWT Token
@@ -85,7 +85,7 @@ const Comments = ({ postId, user }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/blogposts/${postId}/comments/${commentId}`, {
+            const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments/${commentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

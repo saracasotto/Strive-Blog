@@ -25,7 +25,7 @@ const Register = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/authors/register', {
+      const response = await fetch(`http://${process.env.REACT_APP_API_URL}/authors/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ const BlogPostDetails = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/blogposts/${id}`);
+                const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -43,7 +43,7 @@ const BlogPostDetails = () => {
                 jwtDecode(token);
 
                 //FETCH AL BACKEND PER OTTENERE DATI UTENTE
-                fetch(`http://localhost:5000/authors/auth/me`, {
+                fetch(`http://${process.env.REACT_APP_API_URL}/authors/auth/me`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,

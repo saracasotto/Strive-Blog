@@ -47,7 +47,7 @@ const useFetchAndShufflePosts = (currentPage, postsPerPage) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/blogposts?_page=${currentPage}&_limit=${postsPerPage}`);
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts?_page=${currentPage}&_limit=${postsPerPage}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
