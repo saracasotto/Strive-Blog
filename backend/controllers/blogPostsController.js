@@ -71,6 +71,45 @@ export const createBlogPost = async (req, res) => {
   }
 };
 
+//MODIFICA POST DA BACKEND
+export const updateBlogPost = async (req, res) => {
+  try {
+    const { category, title, cover, readTime, content } = req.body;
+
+    const updatedPost = await BlogPost.findByIdAndUpdate(
+      req.params.id,
+      { category, title, cover, readTime, content },
+      { new: true }
+    );
+
+    if (!updatedPost) return res.status(404).json({ message: 'Post non trovato' });
+    res.json(updatedPost);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+//CANCELLA POST DA BACKEND
+export const deleteBlogPost = async (req, res) => {
+  try {
+    const deletedPost = await BlogPost.findByIdAndDelete(req.params.id);
+    if (!deletedPost) return res.status(404).json({ message: 'Post non trovato' });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//CANCELLA TUTTI I POST DA BACKEND 
+export const deleteAllBlogPosts = async (req, res) => {
+  try {
+    await BlogPost.deleteMany({});
+    res.json({ message: 'Tutti i blog posts sono stati cancellati' });
+  } catch (error) {
+    res.status(500).json({ message: 'Errore del server: ' + error.message });
+  }
+};
+
 //CREAZIONE NUOVO POST CON AUTENTICAZIONE DA FRONTEND
 export const createOwnBlogPost = async (req, res) => {
   try {
@@ -101,25 +140,6 @@ export const createOwnBlogPost = async (req, res) => {
   }
 };
 
-
-//MODIFICA POST DA BACKEND
-export const updateBlogPost = async (req, res) => {
-  try {
-    const { category, title, cover, readTime, content } = req.body;
-
-    const updatedPost = await BlogPost.findByIdAndUpdate(
-      req.params.id,
-      { category, title, cover, readTime, content },
-      { new: true }
-    );
-
-    if (!updatedPost) return res.status(404).json({ message: 'Post non trovato' });
-    res.json(updatedPost);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 //MODIFICA POST CON AUTENTICAZIONE DA FRONTEND
 export const updateOwnBlogPost = async (req, res) => {
   try {
@@ -145,17 +165,6 @@ export const updateOwnBlogPost = async (req, res) => {
   }
 };
 
-//CANCELLA POST DA BACKEND
-export const deleteBlogPost = async (req, res) => {
-  try {
-    const deletedPost = await BlogPost.findByIdAndDelete(req.params.id);
-    if (!deletedPost) return res.status(404).json({ message: 'Post non trovato' });
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 //CANCELLA POST CON AUTENTICAZIONE DA FRONTEND
 export const deleteOwnBlogPost = async (req, res) => {
   try {
@@ -174,15 +183,6 @@ export const deleteOwnBlogPost = async (req, res) => {
   }
 };
 
-//CANCELLA TUTTI I POST DA BACKEND 
-export const deleteAllBlogPosts = async (req, res) => {
-  try {
-    await BlogPost.deleteMany({});
-    res.json({ message: 'Tutti i blog posts sono stati cancellati' });
-  } catch (error) {
-    res.status(500).json({ message: 'Errore del server: ' + error.message });
-  }
-};
 
 //CARICA UN'IMMAGINE DEL BLOGPOST
 export const uploadBlogPostCover = async (req, res) => {

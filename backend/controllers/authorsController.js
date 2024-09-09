@@ -163,7 +163,7 @@ export const registerAuthor = async (req, res) => {
 
     // Genera un token JWT
     const token = jwt.sign(
-      { authorId: savedAuthor._id }, 
+      { id: savedAuthor._id }, 
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } 
     );
@@ -198,7 +198,7 @@ export const loginAuthor = async (req, res) => {
 
     // Genera un token JWT
     const token = jwt.sign(
-      { authorId: author._id },
+      { id: author._id },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } 
     );
@@ -216,7 +216,7 @@ export const updateProfile = async (req, res) => {
 
     // Trova e aggiorna l'autore autenticato
     const updatedAuthor = await Author.findByIdAndUpdate(
-      req.authorId,
+      req.loggedAuthor._id,
       { name, surname, email, birthDate, avatar },
       { new: true, runValidators: true }
     );
@@ -234,7 +234,7 @@ export const updateProfile = async (req, res) => {
 //CANCELLA PROFILO AUTENTICATO
 export const deleteProfile = async (req, res) => {
   try {
-    const author = await Author.findByIdAndDelete(req.authorId);
+    const author = await Author.findByIdAndDelete(req.id);
     if (!author) {
       return res.status(404).json({ message: 'Autore non trovato' });
     }

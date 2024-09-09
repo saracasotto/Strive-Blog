@@ -23,7 +23,7 @@ export default async (req, res, next) => {
     const payload = jwt.verify(token, JWT_SECRET);
     console.log("Payload del token: ", payload); //CONTROLLO PAYLOAD!
 
-    const author = await Author.findById(payload.authorId).select("-password");
+    const author = await Author.findById(payload.id).select("-password");
     if (!author) {
       return res.status(401).json({ error: "Autore non trovato" });
     }
