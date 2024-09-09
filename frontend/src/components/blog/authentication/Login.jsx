@@ -25,7 +25,7 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://${process.env.REACT_APP_API_URL}/authors/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const Login = () => {
         </Col>
         <Col lg={6}>
           <h2 className='mt-5'>...or Login with Google</h2>
-          <Button variant="primary" className='mt-3' onClick={() => window.location.href = `http://${process.env.REACT_APP_API_URL}/auth/login-google`}>
+          <Button variant="primary" className='mt-3' onClick={() => window.location.href = `${process.env.REACT_APP_API_URL}/auth/login-google`}>
           <i className="bi bi-google"></i> oogle Login
           </Button>
 

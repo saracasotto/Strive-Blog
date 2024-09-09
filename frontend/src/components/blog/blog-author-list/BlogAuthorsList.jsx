@@ -13,7 +13,7 @@ const BlogAuthorsList = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/authors?_page=${page}&_limit=${limit}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/authors?_page=${page}&_limit=${limit}`);
         const data = await response.json();
 
         //RIMUOVO DUPLICATI

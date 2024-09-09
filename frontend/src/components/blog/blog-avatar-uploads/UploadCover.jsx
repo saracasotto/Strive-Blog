@@ -30,7 +30,7 @@ const UploadCover = () => {
       setError(null);
       setSuccess(null);
 
-      const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${id}/cover`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/blogposts/${id}/cover`, {
         method: 'PATCH',
         body: formData,
       });

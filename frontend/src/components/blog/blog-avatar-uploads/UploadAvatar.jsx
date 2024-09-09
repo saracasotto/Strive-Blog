@@ -27,7 +27,7 @@ const UploadAvatar = () => {
     setError(null); 
 
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_API_URL}/authors/auth/me/avatar`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/auth/me/avatar`, {
         method: 'PATCH',
         body: formData,
         headers: {

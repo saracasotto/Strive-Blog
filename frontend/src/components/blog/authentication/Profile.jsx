@@ -22,7 +22,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       setLoading(true); 
       try {
-        const response = await fetch('http://${process.env.REACT_APP_API_URL}/authors/auth/me', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/auth/me`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -56,7 +56,7 @@ const Profile = () => {
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_API_URL}/authors/auth/me`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/auth/me`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const Profile = () => {
     setAvatarLoading(true); 
   
     try {
-      const response = await fetch('http://${process.env.REACT_APP_API_URL}/authors/auth/me/avatar', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/auth/me/avatar`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -33,7 +33,7 @@ const NewBlogPost = () => {
     };
 
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/auth`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/blogposts/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

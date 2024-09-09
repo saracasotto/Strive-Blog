@@ -12,7 +12,7 @@ const AuthorDetails = () => {
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/authors/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/authors/${id}`);
         const data = await response.json();
         console.log('Dati dell\'autore:', data);
         setAuthor(data);
