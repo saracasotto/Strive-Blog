@@ -2,6 +2,7 @@ import Author from '../models/Authors.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { sendWelcomeEmail } from '../services/Email.js';
 
 
 dotenv.config();
@@ -161,6 +162,9 @@ export const registerAuthor = async (req, res) => {
 
     const savedAuthor = await newAuthor.save();
 
+    await sendWelcomeEmail(savedAuthor);  //INVIAMO EMAIL DI CONFERMA REGISTRAZIONE
+
+
     // Genera un token JWT
     const token = jwt.sign(
       { id: savedAuthor._id }, 
@@ -273,7 +277,6 @@ export const uploadAuthorAvatar = async (req, res) => {
     });
   }
 };
-
 
 //OTTENERE DATI AUTORE AUTENTICATO
 export const me = async (req, res) => {

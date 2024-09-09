@@ -1,5 +1,6 @@
 import BlogPost from '../models/BlogPosts.js';
 import Author from '../models/Authors.js';
+import { sendPostPublishedEmail } from '../services/Email.js';
 
 //OTTIENI TUTTI I POST
 export const getBlogPosts = async (req, res) => {
@@ -132,6 +133,8 @@ export const createOwnBlogPost = async (req, res) => {
     await Author.findByIdAndUpdate(req.loggedAuthor._id, {
       $push: { blogPosts: savedPost._id }  // Aggiungi l'ID del post all'array blogPosts
     });
+
+    await sendPostPublishedEmail(Author, savedPost);  //INVIAMO EMAIL DI CONFERMA PUBBLICAZIONE
 
     res.status(201).json(savedPost);
   } catch (error) {
