@@ -16,6 +16,6 @@ gestisce il salvataggio dell'utente e la generazione del token JWT.
 
 export const googleCallback = (req, res) => {
   console.log("Token JWT ricevuto:", req.user.jwtToken);
-  res.redirect(`http://localhost:3000/?token=${req.user.jwtToken}`);
+  res.redirect(`${process.env.FRONTEND_URL}/?token=${req.user.jwtToken}`);
 };
 
