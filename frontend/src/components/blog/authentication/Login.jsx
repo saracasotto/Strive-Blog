@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import './authentication.css'
 
@@ -37,12 +37,12 @@ const Login = () => {
 
       if (response.ok) {
         // Usa la funzione login del contesto per aggiornare lo stato di autenticazione
-        login(result.token, result.author._id); 
+        login(result.token, result.author._id);
 
         setShowSuccessAlert(true);  // Mostra l'alert di successo
         setTimeout(() => {
           navigate('/');  // Reindirizza alla homepage dopo 2 secondi
-        }, 2000);  
+        }, 2000);
       } else {
         setErrorMessage(result.message);  // Mostra l'errore se il login fallisce
       }
@@ -54,49 +54,66 @@ const Login = () => {
   return (
     <Container fluid="sm">
       <h1>Login if you want to see the content!</h1>
-      <h2 className='mt-5'>Login</h2>
-      
-      {showSuccessAlert && (
-        <Alert variant="success">
-          Login successful! You will be redirected to the Homepage.
-        </Alert>
-      )}
+      <Row>
+        <Col lg={6}>
+          <h2 className='mt-5'>Login</h2>
 
-      {errorMessage && (
-        <Alert variant="danger">
-          {errorMessage}
-        </Alert>
-      )}
+          {showSuccessAlert && (
+            <Alert variant="success">
+              Login successful! You will be redirected to the Homepage.
+            </Alert>
+          )}
 
-      <Form onSubmit={handleLoginSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            value={loginData.email}
-            onChange={handleLoginChange}
-            required
-          />
-        </Form.Group>
+          {errorMessage && (
+            <Alert variant="danger">
+              {errorMessage}
+            </Alert>
+          )}
 
-        <Form.Group controlId="formBasicPassword" className='mt-3'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={loginData.password}
-            onChange={handleLoginChange}
-            required
-          />
-        </Form.Group>
+          <Form onSubmit={handleLoginSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Enter email"
+                value={loginData.email}
+                onChange={handleLoginChange}
+                required
+              />
+            </Form.Group>
 
-        <Button variant="primary" type="submit" className='mt-3'>
-          Login
-        </Button>
-      </Form>
+            <Form.Group controlId="formBasicPassword" className='mt-3'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                value={loginData.password}
+                onChange={handleLoginChange}
+                required
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className='mt-3'>
+              Login
+            </Button>
+          </Form>
+        </Col>
+        <Col lg={6}>
+          <h2 className='mt-5'>...or Login with Google</h2>
+          <Button variant="primary" className='mt-3' onClick={() => window.location.href = 'http://localhost:5000/auth/login-google'}>
+          <i className="bi bi-google"></i> oogle Login
+          </Button>
+
+          <h2 className='mt-5'>Not registered yet?</h2>
+          <Link to={'/register'}>
+          <Button variant="primary" className='mt-3'>
+            Click here
+          </Button>
+          </Link>
+        </Col>
+      </Row>
     </Container>
   );
 };
