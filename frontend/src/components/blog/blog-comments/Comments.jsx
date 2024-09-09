@@ -30,7 +30,7 @@ const Comments = ({ postId, user }) => {
         }
 
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/blogposts/${postId}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
